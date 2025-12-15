@@ -1,5 +1,9 @@
 import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 const Header = () => {
     return (
@@ -42,19 +46,25 @@ const Header = () => {
                 </div>
 
                 {/* ---------------- MENU BAR ---------------- */}
-                <nav className="w-full bg-gray-900 text-white">
-                    <ul className="flex items-center justify-center gap-10 py-3 text-sm font-medium">
-                        <li className="hover:text-orange-400 cursor-pointer">HOME</li>
-                        <li className="hover:text-orange-400 cursor-pointer">BOOKS</li>
-                        <li className="hover:text-orange-400 cursor-pointer">NOVELS</li>
-                        <li className="hover:text-orange-400 cursor-pointer">NOTEBOOKS</li>
-                        <li className="hover:text-orange-400 cursor-pointer">PENS & PENCILS</li>
-                        <li className="hover:text-orange-400 cursor-pointer">GEOMETRY</li>
-                        <li className="hover:text-orange-400 cursor-pointer">STATIONERY</li>
-                        <li className="hover:text-orange-400 cursor-pointer">ART SUPPLIES</li>
-                        <li className="hover:text-orange-400 cursor-pointer">SALE</li>
-                    </ul>
-                </nav>
+                <Navbar bg="dark" variant="dark" className="py-0">
+                    <Container>
+                        <Nav className="mx-auto gap-10 py-3 text-sm font-medium [&_a:hover]:text-orange-400">
+                            <Nav.Link  as={Link} to="/home"> HOME </Nav.Link>
+                            <Nav.Link  as={Link} to="/book"> BOOKS </Nav.Link>
+                            <Nav.Link  as={Link} to="/novels"> NOVELS </Nav.Link>
+                            <Nav.Link  as={Link} to="/notebooks"> NOTEBOOKS </Nav.Link>
+                            <Nav.Link  as={Link} to="/"> PENS & PENCILS </Nav.Link>
+                            <Nav.Link  as={Link} to="/"> GEOMETRY </Nav.Link>
+                            <Nav.Link  as={Link} to="/"> STATIONERY </Nav.Link>
+                            <Nav.Link  as={Link} to="/"> ART SUPPLIES </Nav.Link>
+                            <Nav.Link  as={Link} to="/"> SALE </Nav.Link>
+                        </Nav>
+                    </Container>
+                </Navbar>
+
+
+                {/* ---------------- MENU BAR ---------------- */}
+
             </header>
 
         </>

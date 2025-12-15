@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const AdminLogin = () => {
-    const [adminid, setAdminId] = useState("");
+    const [adminemail, setAdminemail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
-        
+        e.preventDefault();
+        let api = `${import.meta.env.VITE_BACKURL}/admin/login`;
+        const response = await axios.post(api, { adminemail: adminemail, password: password })
+        console.log(response);
+        alert(response.data); 
+        navigate("/admindash");
     }
 
     return (
@@ -37,7 +44,7 @@ const AdminLogin = () => {
                                 type="email"
                                 placeholder="Email"
                                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={(e) => { setAdminId(e.target.value) }}
+                                onChange={(e) => { setAdminemail(e.target.value) }}
                             />
                         </div>
 

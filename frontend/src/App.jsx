@@ -1,9 +1,12 @@
 
-import AdminLogin from './Admin/AdminLogin'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
-import Header from './components/Header'
+import Layout from './Layout'
 import Home from './Pages/Home'
 
+import AdminLogin from './Admin/AdminLogin'
+import AdminDashboard from './Admin/AdminDashboard'
+import AddProduct from './Admin/AddProduct'
 
 function App() {
 
@@ -11,9 +14,23 @@ function App() {
   return (
     <>
       <div>
-        <AdminLogin/>
-        {/* <Header />
-        <Home /> */}
+
+        <Routes>
+          <Route path='/' element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path='home' element={<Home />} />
+          </Route>
+          
+          <Route path='adminlogin' element={<AdminLogin />} />
+        </Routes>
+
+        <Routes>
+          <Route path='/admindash' element={<AdminDashboard />}>
+            <Route path='addproduct' element={<AddProduct />} />
+          </Route>
+
+        </Routes>
+
 
 
       </div>

@@ -1,12 +1,10 @@
-Dish & Dwell
+
 
 pnpm run dev
 
 pnpm i
 
+FormData has automatic   enc type . 
+const formData = new FormData(); // is it func of js not in camel case it is obj type which carry binary data enc type 
 
-Home Bucket          Utility Hub          Kitchen Nest          Home Vault          Daily Ware          Home Barrel          Kitchen Cloud          Everyday Utility          Bottle Basket          Home StoreX          Utility Mart          House Essentials          Kitchen Utility          Home Containers          Daily Kitchen          
-
-
-
-HomeWare        Utensila        Bottlica        Homnify     Kitzen      Homiqo     Utensio     Plastico   Storiva      Homifyx        Kitchora        Utensiq     Domesta     Homezo     Kitchino     
+# in cloudinary  name, key , api etc should be in small letter not capital. 

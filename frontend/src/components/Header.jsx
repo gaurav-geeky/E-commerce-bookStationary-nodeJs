@@ -5,7 +5,14 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 
+import { useSelector } from "react-redux";
+
+
 const Header = () => {
+
+    const myData = useSelector(state => state.mycart.cart); 
+    console.log(myData); 
+    const proLength = myData.length;  
     return (
         <>
 
@@ -39,7 +46,7 @@ const Header = () => {
                         <button className="relative hover:text-blue-600">
                             <FaShoppingCart size={20} />
                             <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-1">
-                                0
+                                {proLength}
                             </span>
                         </button>
                     </div>
@@ -49,15 +56,13 @@ const Header = () => {
                 <Navbar bg="dark" variant="dark" className="py-0">
                     <Container>
                         <Nav className="mx-auto gap-10 py-3 text-sm font-medium [&_a:hover]:text-orange-400">
-                            <Nav.Link  as={Link} to="/home"> HOME </Nav.Link>
-                            <Nav.Link  as={Link} to="/book"> BOOKS </Nav.Link>
-                            <Nav.Link  as={Link} to="/novels"> NOVELS </Nav.Link>
-                            <Nav.Link  as={Link} to="/notebooks"> NOTEBOOKS </Nav.Link>
-                            <Nav.Link  as={Link} to="/"> PENS & PENCILS </Nav.Link>
-                            <Nav.Link  as={Link} to="/"> GEOMETRY </Nav.Link>
-                            <Nav.Link  as={Link} to="/"> STATIONERY </Nav.Link>
-                            <Nav.Link  as={Link} to="/"> ART SUPPLIES </Nav.Link>
-                            <Nav.Link  as={Link} to="/"> SALE </Nav.Link>
+                            <Nav.Link as={Link} to="/home"> HOME </Nav.Link>
+                            <Nav.Link as={Link} to="/book"> BOOKS </Nav.Link>
+                            <Nav.Link as={Link} to="/novels"> NOVELS </Nav.Link>
+                            <Nav.Link as={Link} to="/notebooks"> NOTEBOOKS </Nav.Link>
+                            <Nav.Link as={Link} to="/"> PENS & PENCILS </Nav.Link>
+                            <Nav.Link as={Link} to="/mycart"> CART </Nav.Link>
+                            <Nav.Link as={Link} to="/registration"> REGISTRATION </Nav.Link>
                         </Nav>
                     </Container>
                 </Navbar>

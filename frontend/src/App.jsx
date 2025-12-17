@@ -8,6 +8,12 @@ import AdminLogin from './Admin/AdminLogin'
 import AdminDashboard from './Admin/AdminDashboard'
 import AddProduct from './Admin/AddProduct'
 
+
+import Mycart from './Pages/Mycart'
+import Registration from './Pages/Registration'
+
+
+
 function App() {
 
 
@@ -16,11 +22,14 @@ function App() {
       <div>
 
         <Routes>
+
           <Route path='/' element={<Layout />}>
             <Route index element={<Home />} />
             <Route path='home' element={<Home />} />
+            <Route path='mycart' element={<Mycart />} />
+            <Route path='registration' element={<Registration />} />
           </Route>
-          
+
           <Route path='adminlogin' element={<AdminLogin />} />
         </Routes>
 

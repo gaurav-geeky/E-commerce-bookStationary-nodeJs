@@ -1,5 +1,6 @@
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 import Slider from "./Slider";
 
@@ -18,15 +19,69 @@ import novel2 from "../images/home/products/novel2.jpg";
 import novel3 from "../images/home/products/novel3.jpg";
 import novel4 from "../images/home/products/novel4.jpg";
 
+import { Card, Button } from 'react-bootstrap';
+
+import { useDispatch } from 'react-redux';
+import { addToCart } from "../CartSlice";
+
+
 
 const Home = () => {
+  const [mydata, setmydata] = useState([]);
+  const dispatch = useDispatch();
+
+  const loadData = async () => {
+    let api = `${import.meta.env.VITE_BACKURL}/product/branddisplay`;
+    const response = await axios.get(api)
+    console.log(response.data);
+    setmydata(response.data);
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const ans = mydata.map((key) => {
+    return (
+      <>
+        <Card style={{ width: '18rem', marginTop: "20px" }}>
+
+          <Card.Img variant="top" src={key.defaultImage} style={{ height: "300px" }} />
+
+          <Card.Body>
+            <Card.Title>{key.name}</Card.Title>
+            <Card.Text>
+              Description : {key.description}
+              <br />
+              <b>  For : {key.category} </b>
+              <br />
+              <span style={{ color: "green", fontWeight: "bold" }}> Price : {key.price}</span>
+            </Card.Text>
+
+            <Button variant="primary"
+              onClick={() => {
+                dispatch(addToCart({
+                  id: key._id, name: key.name, description: key.description, category: key.category, price: key.price, image: key.defaultImage, qnty:1
+                }))
+              }}>
+              Add to Cart
+            </Button>
+          </Card.Body>
+
+        </Card>
+
+      </>
+    )
+  })
+
+
   return (
     <div className="bg-gray-100">
 
       {/* CAROUSEL */}
       <Slider />
 
-      {/* ------------------ AMAZON STYLE CATEGORY BOXES ------------------ */}
+      {/* ------------ AMAZON STYLE CATEGORY BOXES --------- */}
       <section className="mt-[-50px] px-4 pb-10 relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
@@ -84,7 +139,7 @@ const Home = () => {
           <div className="bg-white p-4 shadow-md rounded-md">
             <h2 className="text-xl font-bold mb-3">Novels</h2>
 
-           <div className="grid grid-cols-2">
+            <div className="grid grid-cols-2">
               <div>
                 <img src={novel1} className="w-full h-40 object-cover p-1 " alt="Books" />
                 <p className="text-[12px]">Madeline Martin</p>
@@ -121,66 +176,15 @@ const Home = () => {
 
         </div>
       </section>
+      {/* ------------ AMAZON STYLE END --------- */}
+
+      <h1 className="">Top Brands</h1>
+
+      <div className=" flex w-[90%] pb-5 m-auto justify-between flex-wrap"> {ans} </div>
+
     </div>
   );
 };
 
 export default Home;
-
-
-
-// import React from "react";
-// import img1 from "../images/home/books.avif";
-// import img2 from "../images/home/geometry.avif";
-// import img3 from "../images/home/pencil.avif";
-// import img4 from "../images/home/stationary.png";
-
-// const Home = () => {
-//   return (
-//     <div>
-//       <div
-//         id="mainCarousel"
-//         className="carousel slide"
-//         data-bs-ride="carousel"
-//       >
-//         <div className="carousel-inner">
-//           <div className="carousel-item active">
-//             <img  src={img1} className="d-block w-full h-[500px] object-contain bg-gray-200" alt="Slide 1" />
-//           </div>
-//           <div className="carousel-item">
-//             <img  src={img2} className="d-block w-full h-[500px] object-contain bg-gray-200" alt="Slide 2" />
-//           </div>
-//           <div className="carousel-item">
-//             <img  src={img3} className="d-block w-full h-[500px] object-contain bg-gray-200" alt="Slide 3" />
-//           </div>
-//           <div className="carousel-item">
-//             <img  src={img4} className="d-block w-full h-[500px] object-contain bg-gray-200" alt="Slide 4" />
-//           </div>
-//         </div>
-
-//         <button
-//           className="carousel-control-prev"
-//           type="button"
-//           data-bs-target="#mainCarousel"
-//           data-bs-slide="prev"
-//         >
-//           <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-//           <span className="visually-hidden">Previous</span>
-//         </button>
-
-//         <button
-//           className="carousel-control-next"
-//           type="button"
-//           data-bs-target="#mainCarousel"
-//           data-bs-slide="next"
-//         >
-//           <span className="carousel-control-next-icon" aria-hidden="true"></span>
-//           <span className="visually-hidden">Next</span>
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Home;
 

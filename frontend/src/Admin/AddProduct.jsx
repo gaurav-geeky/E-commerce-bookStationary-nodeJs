@@ -72,9 +72,10 @@ const AddProduct = () => {
             <Form.Label>Select Category</Form.Label>
             <Form.Select name="category" onChange={handleInput}>
               <option>Open this select menu</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Kids">Kids</option>
+              <option value="Books">Books</option>
+              <option value="Novels">Novels</option>
+              <option value="Pens&Pencils">Pens & Pencils</option>
+              <option value="Notebooks">Notebooks</option>
             </Form.Select>
           </Form.Group>
 

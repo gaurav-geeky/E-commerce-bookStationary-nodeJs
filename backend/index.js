@@ -6,7 +6,9 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
 const cors = require("cors");
-const AdminRoute = require("./routes/adminRoute"); 
+
+const AdminRoute = require("./routes/adminRoute");
+const ProductRoute = require("./routes/productRoute");  
 
 mongoose.connect(process.env.DBCON).then(()=> {
     console.log(`db connect for ecomm nodejs`)
@@ -18,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 app.use('/admin', AdminRoute)
+app.use('/product', ProductRoute)
 
 
 const port = process.env.PORT;

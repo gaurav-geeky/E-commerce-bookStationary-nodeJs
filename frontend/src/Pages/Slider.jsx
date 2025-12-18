@@ -14,23 +14,23 @@ const Slider = () => {
             <div className="carousel-inner">
     
               <div className="carousel-item active">
-                <img src={img1} className="d-block w-full h-[500px] object-contain bg-white" alt="Slide 1" />
+                <img src={img1} className="d-block w-full h-[250px] sm:h-[400px] lg:h-[500px] object-contain bg-white" alt="Slide 1" />
               </div>
     
               <div className="carousel-item">
-                <img src={img2} className="d-block w-full h-[500px] object-contain bg-white" alt="Slide 2" />
+                <img src={img2} className="d-block w-full h-[250px] sm:h-[400px] lg:h-[500px] object-contain bg-white" alt="Slide 2" />
               </div>
     
               <div className="carousel-item">
-                <img src={img3} className="d-block w-full h-[500px] object-contain bg-white" alt="Slide 3" />
+                <img src={img3} className="d-block w-full h-[250px] sm:h-[400px] lg:h-[500px] object-contain bg-white" alt="Slide 3" />
               </div>
     
               <div className="carousel-item">
-                <img src={img4} className="d-block w-full h-[500px] object-contain bg-white" alt="Slide 4" />
+                <img src={img4} className="d-block w-full h-[250px] sm:h-[400px] lg:h-[500px] object-contain bg-white" alt="Slide 4" />
               </div>
     
               <div className="carousel-item">
-                <img src={img5} className="d-block w-full h-[500px] object-contain bg-white" alt="Slide 4" />
+                <img src={img5} className="d-block w-full h-[250px] sm:h-[400px] lg:h-[500px] object-contain bg-white" alt="Slide 4" />
               </div>
     
             </div>
@@ -48,4 +48,4 @@ const Slider = () => {
   )
 }
 
-export default Slider
+export default Slider; 

@@ -1,133 +1,160 @@
+
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import axios from "axios";
+import { useNavigate } from 'react-router-dom'
+import axios from "axios"
 
 const Registration = () => {
-    const [input, setinput] = useState({});
+  const [input, setInput] = useState({})
+  const navigate = useNavigate()
 
-    const handleinput = () => {
+  const handleInput = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value })
+  }
 
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    let api = `${import.meta.env.VITE_BACKURL}/admin/login`
+    const response = await axios.post(api, input)
+    alert(response.data)
+    navigate("/admindash")
+  }
 
+  return (
+    <>
+      {/* PAGE WRAPPER */}
+      <section className="min-h-screen w-full bg-gray-900 pt-6 px-3 sm:px-4 pb-24">
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        let api = `${import.meta.env.VITE_BACKURL}/admin/login`;
-        const response = await axios.post(api, { adminemail: adminemail, password: password })
-        console.log(response);
-        alert(response.data);
-        navigate("/admindash");
-    }
+        {/* HEADER */}
+        <header className="text-white text-xl sm:text-3xl font-black w-full max-w-7xl mx-auto bg-gray-800 p-3 rounded-lg shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
+          Welcome to User Registration Page
+        </header>
 
-    return (
-        <>
-            <section className="min-h-screen w-full bg-gray-900 pt-6 px-4">
+        {/* CARD */}
+        <div
+          className="
+            bg-gray-800 
+            mx-auto 
+            mt-8 
+            w-full 
+            max-w-[450px] 
+            rounded-lg 
+            shadow-[0_4px_20px_rgba(255,255,255,0.25)]
+          "
+        >
 
-                {/* Header (unchanged position) */}
-                <header className="text-white text-xl sm:text-3xl font-black  w-full max-w-7xl mx-auto bg-gray-800 p-3 rounded-lg shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
-                    Welcome to User Registration  Page
-                </header>
+          {/* FORM */}
+          <form
+            className="
+              flex 
+              flex-col 
+              gap-5 
+              w-full 
+              px-4 
+              sm:px-10 
+              py-6
+            "
+            onSubmit={handleSubmit}
+          >
 
-                {/* Register Card */}
-                <div className="bg-gray-800 mx-auto mt-8 max-w-[420px] rounded-lg shadow-[0_4px_20px_rgba(255,255,255,0.25)] ">
+            {/* NAME */}
+            <div>
+              <label className="text-blue-500 text-base block mb-1">
+                Enter Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
+                onChange={handleInput}
+              />
+            </div>
 
+            {/* EMAIL */}
+            <div>
+              <label className="text-blue-500 text-base block mb-1">
+                Enter Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
+                onChange={handleInput}
+              />
+            </div>
 
-                    {/* 🔹 Form width reduced */}
-                    <form className="flex flex-col gap-5 px-3 pb-4 max-w-[350px] mx-auto">
+            {/* CONTACT */}
+            <div>
+              <label className="text-blue-500 text-base block mb-1">
+                Enter Contact
+              </label>
+              <input
+                type="text"
+                name="contact"
+                placeholder="Contact"
+                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
+                onChange={handleInput}
+              />
+            </div>
 
-                        {/* name */}
-                        <div>
-                            <label className="text-blue-500 text-base block mb-1">
-                                Enter Name
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Email"
-                                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={handleinput}
-                            />
-                        </div>
+            {/* CITY */}
+            <div>
+              <label className="text-blue-500 text-base block mb-1">
+                Enter City
+              </label>
+              <input
+                type="text"
+                name="city"
+                placeholder="City"
+                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
+                onChange={handleInput}
+              />
+            </div>
 
-                        {/* email */}
-                        <div>
-                            <label className="text-blue-500 text-base block mb-1">
-                                Enter Email
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Email"
-                                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={handleinput}
-                            />
-                        </div>
+            {/* ADDRESS */}
+            <div>
+              <label className="text-blue-500 text-base block mb-1">
+                Enter Address
+              </label>
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
+                onChange={handleInput}
+              />
+            </div>
 
-                        {/* contact */}
-                        <div>
-                            <label className="text-blue-500 text-base block mb-1">
-                                Enter Contact
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Contact"
-                                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={handleinput}
-                            />
-                        </div>
+            {/* PINCODE */}
+            <div>
+              <label className="text-blue-500 text-base block mb-1">
+                Enter Pincode
+              </label>
+              <input
+                type="text"
+                name="pincode"
+                placeholder="Pincode"
+                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
+                onChange={handleInput}
+              />
+            </div>
 
-                        {/* City */}
-                        <div>
-                            <label className="text-blue-500 text-base block mb-1">
-                                Enter City
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="City"
-                                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={handleinput}
-                            />
-                        </div>
+            {/* BUTTON */}
+            <button
+              type="submit"
+              className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-8 rounded-full mt-6 self-center transition"
+            >
+              Register
+            </button>
 
-                        {/* Address */}
-                        <div>
-                            <label className="text-blue-500 text-base block mb-1">
-                                Enter Address
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="Address"
-                                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={handleinput}
-                            />
-                        </div>
-
-                        {/* pincode */}
-                        <div>
-                            <label className="text-blue-500 text-base block mb-1">
-                                Enter pincode
-                            </label>
-                            <input
-                                type="text"
-                                placeholder="pincode"
-                                className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-1"
-                                onChange={handleinput}
-                            />
-                        </div>
-
-                        {/* 🔹 Button smaller + pushed down */}
-                        <button
-                            type="submit"
-                            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-1 px-6 rounded-full mt-4 self-center transition"
-                            onClick={handleSubmit}
-                        >
-                            Register
-                        </button>
-
-                    </form>
-                </div>
-            </section>
-        </>
-    )
+          </form>
+        </div>
+      </section>
+    </>
+  )
 }
 
-export default Registration;
+export default Registration; 
+
 

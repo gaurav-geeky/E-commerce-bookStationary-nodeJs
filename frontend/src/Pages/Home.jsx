@@ -41,38 +41,42 @@ const Home = () => {
     loadData();
   }, []);
 
+
   const ans = mydata.map((key) => {
     return (
-      <>
-        <Card style={{ width: '18rem', marginTop: "20px" }}>
+      <Card key={key._id} className=" w-full max-w-[18rem] shadow-md"
+      >
+        <Card.Img variant="top" src={key.defaultImage} className="h-[300px]object-cover"
+        />
 
-          <Card.Img variant="top" src={key.defaultImage} style={{ height: "300px" }} />
+        <Card.Body>
+          <Card.Title>{key.name}</Card.Title>
 
-          <Card.Body>
-            <Card.Title>{key.name}</Card.Title>
-            <Card.Text>
-              Description : {key.description}
-              <br />
-              <b>  For : {key.category} </b>
-              <br />
-              <span style={{ color: "green", fontWeight: "bold" }}> Price : {key.price}</span>
-            </Card.Text>
+          <Card.Text>
+            Description : {key.description}
+            <br />
+            <b>For : {key.category}</b>
+            <br />
+            <span className="text-green-600 font-bold">
+              Price : {key.price}
+            </span>
+          </Card.Text>
 
-            <Button variant="primary"
-              onClick={() => {
-                dispatch(addToCart({
-                  id: key._id, name: key.name, description: key.description, category: key.category, price: key.price, image: key.defaultImage, qnty:1
-                }))
-              }}>
-              Add to Cart
-            </Button>
-          </Card.Body>
-
-        </Card>
-
-      </>
-    )
-  })
+          <Button
+            variant="primary"
+            onClick={() => dispatch(addToCart({
+              id: key._id, name: key.name,
+              description: key.description,
+              category: key.category, price: key.price,
+              image: key.defaultImage, qnty: 1,
+            }))
+            } >
+            Add to Cart
+          </Button>
+        </Card.Body>
+      </Card>
+    );
+  });
 
 
   return (
@@ -178,13 +182,20 @@ const Home = () => {
       </section>
       {/* ------------ AMAZON STYLE END --------- */}
 
-      <h1 className="">Top Brands</h1>
+      <div className="text-blue-500 text-center text-4xl font-bold px-4 py-3 mt-6">Top Brands</div>
 
-      <div className=" flex w-[90%] pb-5 m-auto justify-between flex-wrap"> {ans} </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-4 pb-10 place-items-center">
+        {ans}
+      </div>
+
+
 
     </div>
   );
 };
 
 export default Home;
+
+
+
 

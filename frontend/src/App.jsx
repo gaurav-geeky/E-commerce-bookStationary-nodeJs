@@ -8,11 +8,8 @@ import AdminLogin from './Admin/AdminLogin'
 import AdminDashboard from './Admin/AdminDashboard'
 import AddProduct from './Admin/AddProduct'
 
-
 import Mycart from './Pages/Mycart'
 import Registration from './Pages/Registration'
-
-
 
 function App() {
 

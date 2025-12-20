@@ -15,7 +15,7 @@ const Header = () => {
       <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-6 py-3">
 
         {/* Logo */}
-        <h1 className="text-3xl font-bold tracking-wide text-blue-700">
+        <h1 className="text-3xl font-bold tracking-widest text-blue-700">
           BookHunt
         </h1>
 

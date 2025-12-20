@@ -8,15 +8,18 @@ const Registration = () => {
   const navigate = useNavigate()
 
   const handleInput = (e) => {
-    setInput({ ...input, [e.target.name]: e.target.value })
+    const name = e.target.name;
+    const value = e.target.value;
+    setInput(values => ({ ...values, [name]: value }));
+    console.log(input);
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    let api = `${import.meta.env.VITE_BACKURL}/admin/login`
+    let api = `${import.meta.env.VITE_BACKURL}/product/registration`
     const response = await axios.post(api, input)
-    alert(response.data)
-    navigate("/admindash")
+    alert(response.data.msg);
+    console.log(response.data);
   }
 
   return (
@@ -30,31 +33,10 @@ const Registration = () => {
         </header>
 
         {/* CARD */}
-        <div
-          className="
-            bg-gray-800 
-            mx-auto 
-            mt-8 
-            w-full 
-            max-w-[450px] 
-            rounded-lg 
-            shadow-[0_4px_20px_rgba(255,255,255,0.25)]
-          "
-        >
+        <div className="bg-gray-800 mx-auto mt-8 w-full max-w-[450px] rounded-lg shadow-[0_4px_20px_rgba(255,255,255,0.25)]" >
 
           {/* FORM */}
-          <form
-            className="
-              flex 
-              flex-col 
-              gap-5 
-              w-full 
-              px-4 
-              sm:px-10 
-              py-6
-            "
-            onSubmit={handleSubmit}
-          >
+          <form className="flex flex-col gap-5 w-full px-4 sm:px-10 py-6" >
 
             {/* NAME */}
             <div>
@@ -143,9 +125,9 @@ const Registration = () => {
             {/* BUTTON */}
             <button
               type="submit"
-              className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-8 rounded-full mt-6 self-center transition"
+              className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 px-8 rounded-full mt-6 self-center transition" onClick={handleSubmit}
             >
-              Register
+              Registeration
             </button>
 
           </form>
@@ -155,6 +137,6 @@ const Registration = () => {
   )
 }
 
-export default Registration; 
+export default Registration;
 
 

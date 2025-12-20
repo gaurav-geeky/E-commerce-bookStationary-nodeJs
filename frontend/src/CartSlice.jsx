@@ -11,6 +11,7 @@ const cartSlice = createSlice({
         addToCart: (state, actions) => {
             console.log(actions.payload);
             state.cart.push(actions.payload);
+
         },
 
         qntyInc: (state, actions) => {

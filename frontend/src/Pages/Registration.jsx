@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from "axios"
 
 const Registration = () => {
-  const [input, setInput] = useState({})
+  const initial = { name: "", email: "", contact: "", city: "", address: "", pincode: "" }; 
+  const [input, setInput] = useState(initial)
   const navigate = useNavigate()
 
   const handleInput = (e) => {
@@ -20,15 +21,16 @@ const Registration = () => {
     const response = await axios.post(api, input)
     alert(response.data.msg);
     console.log(response.data);
+    setInput(initial); 
   }
 
   return (
     <>
       {/* PAGE WRAPPER */}
-      <section className="min-h-screen w-full bg-gray-900 pt-6 px-3 sm:px-4 pb-24">
+      <section className="min-h-screen w-full bg-gray-800 pt-6 px-3 sm:px-4 pb-24">
 
         {/* HEADER */}
-        <header className="text-white text-xl sm:text-3xl font-black w-full max-w-7xl mx-auto bg-gray-800 p-3 rounded-lg shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
+        <header className="text-white text-xl sm:text-3xl font-black w-full max-w-7xl mx-auto bg-gray-700 p-3 rounded-lg shadow-[0_4px_20px_rgba(255,255,255,0.25)]">
           Welcome to User Registration Page
         </header>
 
@@ -46,6 +48,7 @@ const Registration = () => {
               <input
                 type="text"
                 name="name"
+                value={input.name}
                 placeholder="Name"
                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
                 onChange={handleInput}
@@ -60,6 +63,7 @@ const Registration = () => {
               <input
                 type="email"
                 name="email"
+                value={input.email}
                 placeholder="Email"
                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
                 onChange={handleInput}
@@ -74,6 +78,7 @@ const Registration = () => {
               <input
                 type="text"
                 name="contact"
+                value={input.contact}
                 placeholder="Contact"
                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
                 onChange={handleInput}
@@ -88,6 +93,7 @@ const Registration = () => {
               <input
                 type="text"
                 name="city"
+                value={input.city}
                 placeholder="City"
                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
                 onChange={handleInput}
@@ -102,6 +108,7 @@ const Registration = () => {
               <input
                 type="text"
                 name="address"
+                value={input.address}
                 placeholder="Address"
                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
                 onChange={handleInput}
@@ -116,6 +123,7 @@ const Registration = () => {
               <input
                 type="text"
                 name="pincode"
+                value={input.pincode}
                 placeholder="Pincode"
                 className="w-full bg-transparent text-white border-b border-gray-400 focus:outline-none focus:border-blue-500 py-2"
                 onChange={handleInput}

@@ -1,20 +1,21 @@
-
-
-import { FaSearch, FaUser, FaShoppingCart } from "react-icons/fa";
+import { FaSearch, FaUser, FaShoppingCart, FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
+import Nav from "react-bootstrap/Nav";
 
-import Nav from 'react-bootstrap/Nav';
-
+import "../css/Header.css";
 
 const Header = () => {
-
-  const myData = useSelector(state => state.mycart.cart);
+  const myData = useSelector((state) => state.mycart.cart);
   const proLength = myData.length;
-  const [open, setOpen] = useState(false);   // 👈 add this
+
+  const [open, setOpen] = useState(false);          // account dropdown
+  const [menuOpen, setMenuOpen] = useState(false); // hamburger menu
 
   const dropdownRef = useRef();
+  const name = localStorage.getItem("name");
+
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -22,102 +23,76 @@ const Header = () => {
         setOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleOutsideClick);
-
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
-
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
 
   return (
-    <header className="w-full shadow-md bg-white">
+    <header className="header">
+      {/* ================= TOP BAR ================= */}
+      <div className="top-bar">
+        <div className="logo">BookHunt</div>
 
-      {/* TOP BAR */}
-      <div className="w-full flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-5 sm:px-6 ">
-
-        {/* Logo */}
-        <p className="text-4xl font-bold tracking-wider text-blue-700">
-          BookHunt
-        </p>
-
-        {/* Search Bar */}
-        <div className="flex items-center w-full sm:w-1/2 border rounded-full overflow-hidden shadow-sm">
-          <input
-            type="text"
-            placeholder="Search products…"
-            className="w-full px-4 py-2 outline-none"
-          />
-          <button className="bg-orange-500 px-4 py-2">
-            <FaSearch className="text-white" />
+        <div className="search-box">
+          <input type="text" placeholder="Search products…" />
+          <button>
+            <FaSearch />
           </button>
         </div>
 
-
-        {/* Icons */}
-        <div className="flex items-center justify-end gap-6">
-
-          <div className="relative" ref={dropdownRef}>
-            {/* BUTTON */}
-            <button
-              onClick={() => setOpen(!open)}
-              className="flex items-center gap-1 hover:text-blue-600" >
+        <div className="header-icons">
+          {/* ACCOUNT */}
+          <div className="account" ref={dropdownRef}>
+            <button onClick={() => setOpen(!open)} className="account-btn">
               <FaUser />
-              <span className="hidden sm:inline">Account</span>
+              <span className="account-text">Account</span>
             </button>
 
-            {/* dropdown for signup and login */}
             {open && (
-              <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-md z-50">
-                <Nav.Link as={Link} to="/registration"
-                  className="block px-4 py-2 hover:bg-gray-100"
-                  onClick={() => setOpen(false)} >
+              <div className="account-dropdown">
+                <Nav.Link as={Link} to="/registration" onClick={() => setOpen(false)}>
                   Signup
                 </Nav.Link>
-
-                <Nav.Link as={Link} to="/login"
-                  className=" px-4 py-2"
-                  onClick={() => setOpen(false)} >
+                <Nav.Link as={Link} to="/login" onClick={() => setOpen(false)}>
                   Login
                 </Nav.Link>
               </div>
             )}
           </div>
 
-
-          <button className="relative hover:text-blue-600">
-            <Nav.Link as={Link} to="/mycart" className="">
-              <FaShoppingCart size={20} />
-              <span className="absolute -top-2 -right-2 bg-orange-500 text-white text-xs rounded-full px-1">
-                {proLength}
-              </span>
-            </Nav.Link>
-          </button>
-
+          {/* CART */}
+          <Nav.Link as={Link} to="/mycart" className="cart">
+            <FaShoppingCart />
+            <span className="cart-count">{proLength}</span>
+          </Nav.Link>
         </div>
-
       </div>
 
-      {/* MENU BAR */}
-      <nav className="bg-gray-900">
-        <Nav className="justify-center gap-6 py-3 text-sm font-medium">
+      {/* ================= MENU BAR ================= */}
+      <nav className="menu-bar">
+        <div className="menu-left">
+          {/* HAMBURGER (MOBILE) */}
+          <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            <FaBars />
+          </button>
 
-          <Nav.Link as={Link} to="/home" className="text-white"> HOME </Nav.Link>
-          <Nav.Link as={Link} to="/book" className="text-white"> BOOKS </Nav.Link>
-          <Nav.Link as={Link} to="/novels" className="text-white"> NOVELS </Nav.Link>
-          <Nav.Link as={Link} to="/notebooks" className="text-white"> NOTEBOOKS </Nav.Link>
-          <Nav.Link as={Link} to="/" className="text-white"> PENS & PENCILS </Nav.Link>
-          <Nav.Link as={Link} to="/mycart" className="text-white"> CART </Nav.Link>
-        </Nav>
+          {/* LINKS */}
+          <div className={`menu-links ${menuOpen ? "open" : ""}`}>
+            <Nav.Link as={Link} to="/home" onClick={() => setMenuOpen(false)}>HOME</Nav.Link>
+            <Nav.Link as={Link} to="/book" onClick={() => setMenuOpen(false)}>BOOKS</Nav.Link>
+            <Nav.Link as={Link} to="/novels" onClick={() => setMenuOpen(false)}>NOVELS</Nav.Link>
+            <Nav.Link as={Link} to="/notebooks" onClick={() => setMenuOpen(false)}>NOTEBOOKS</Nav.Link>
+            <Nav.Link as={Link} to="/" onClick={() => setMenuOpen(false)}>PENS & PENCILS</Nav.Link>
+            <Nav.Link as={Link} to="/mycart" onClick={() => setMenuOpen(false)}>CART</Nav.Link>
+          </div>
+        </div>
+
+        {name && <div className="welcome">Welcome {name}</div>}
       </nav>
-
     </header>
   );
 };
 
 export default Header;
-
-
 

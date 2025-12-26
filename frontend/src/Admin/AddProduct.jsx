@@ -9,6 +9,9 @@ const AddProduct = () => {
   const [input, setInput] = useState({});
   const [images, setImages] = useState([]);
 
+  const [preview, setPreview] = useState([]); // 👈 NEW (for image preview)
+
+
   const handleInput = (e) => {
     const { name, value } = e.target
     setInput(values => ({ ...values, [name]: value }));
@@ -16,9 +19,26 @@ const AddProduct = () => {
   }
 
   const handleImage = (e) => {
-    console.log(e.target.files);
-    setImages(e.target.files);
-  }
+    const files = Array.from(e.target.files); // convert FileList → Array
+    setImages(files); // existing logic (for upload)
+
+    // 👇 NEW: create preview URLs
+    const previewUrls = files.map(file => URL.createObjectURL(file));
+    setPreview(previewUrls);
+  };
+
+  // remove img function
+  const removeImage = (removeIndex) => {
+    setPreview(prev =>
+      prev.filter((_, index) => index !== removeIndex)
+    );
+
+    setImages(prev =>
+      prev.filter((_, index) => index !== removeIndex)
+    );
+  };
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -104,6 +124,35 @@ const AddProduct = () => {
             />
           </Form.Group>
 
+          {/* IMAGE PREVIEW WITH REMOVE BUTTON */}
+          {preview.length > 0 && (
+            <div className="flex gap-3 flex-wrap mb-4">
+              {preview.map((img, index) => (
+                <div key={img} className="relative">
+
+                  {/* ❌ REMOVE BUTTON */}
+                  <button
+                    type="button"
+                    onClick={() => removeImage(index)}
+                    className="absolute -top-2 -right-2 bg-red-500 text-white 
+                     rounded-full w-5 h-5 flex items-center justify-center
+                     text-xs hover:bg-red-700"
+                  >
+                    ✕
+                  </button>
+
+                  {/* IMAGE */}
+                  <img
+                    src={img}
+                    className="w-24 h-24 object-cover rounded border"
+                    alt="preview"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+
+
           <div className="text-center ">
             <Button variant="primary" type="submit" className="px-4 py-1 w-100 sm:w-auto" onClick={handleSubmit}>
               Submit
@@ -117,3 +166,10 @@ const AddProduct = () => {
 };
 
 export default AddProduct;
+
+
+/*
+images   → real File objects (for upload)
+preview  → temporary URLs (for UI)
+
+*/

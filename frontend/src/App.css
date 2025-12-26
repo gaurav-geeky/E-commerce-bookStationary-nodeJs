@@ -1,0 +1,11 @@
+
+.page-content {
+  padding-top: 120px; /* desktop header height */
+}
+
+@media (max-width: 480px) {
+  .page-content {
+    padding-top: 180px; /* mobile stacked header */
+  }
+}
+

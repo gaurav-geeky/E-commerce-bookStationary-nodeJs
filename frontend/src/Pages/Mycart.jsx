@@ -1,123 +1,103 @@
-import React from 'react'
-import Table from 'react-bootstrap/Table'
-import Button from 'react-bootstrap/Button'
-import { useDispatch, useSelector } from "react-redux"
-import { FaSquareMinus, FaSquarePlus } from "react-icons/fa6"
-import { qntyInc, qntyDec, proRemove } from '../CartSlice'
+
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FaMinusSquare, FaPlusSquare } from "react-icons/fa";
+import { qntyInc, qntyDec, proRemove } from "../CartSlice";
+import { useNavigate } from "react-router-dom";
+
+import "../css/Mycart.css"; 
+
 
 const Mycart = () => {
-  const myData = useSelector(state => state.mycart.cart)
-  const dispatch = useDispatch()
+  const myData = useSelector((state) => state.mycart.cart);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  // ✅ total calculated ONCE
-  const totAmount = myData.reduce(
+  const totalAmount = myData.reduce(
     (sum, item) => sum + item.price * item.qnty,
     0
-  )
+  );
 
-  // ✅ single map
-  const ans = myData.map((key) => (
-    <tr
-      key={key.id}
-      className="
-        block lg:table-row
-        border rounded-lg lg:rounded-none
-        mb-4 lg:mb-0
-        bg-white lg:bg-transparent
-        shadow lg:shadow-none
-      "
-    >
-      {/* IMAGE */}
-      <td className="block lg:table-cell p-4 border">
-        <img
-          src={key.image}
-          alt="img"
-          className="w-[120px] mx-auto"
-        />
-      </td>
-
-      {/* INFO (name, category, description) */}
-      <td className="block lg:table-cell p-4 border">
-        <div className="flex flex-col gap-1">
-          <span className="font-bold text-lg">{key.name}</span>
-          <span className="text-sm text-gray-500">
-            Category: {key.category}
-          </span>
-          <p className="text-sm">{key.description}</p>
-        </div>
-      </td>
-
-      {/* PRICE + QTY (tablet stacks, desktop inline) */}
-      <td className="block lg:table-cell p-4 border">
-        <div className="flex flex-col sm:flex-col lg:flex-row lg:items-center gap-3">
-          <span className="font-semibold text-green-600 text-lg">
-            ₹{key.price}
-          </span>
-
-          <div className="flex items-center gap-3 text-lg font-bold">
-            <FaSquareMinus
-              className="cursor-pointer"
-              onClick={() => dispatch(qntyDec({ id: key.id }))}
-            />
-            {key.qnty}
-            <FaSquarePlus
-              className="cursor-pointer"
-              onClick={() => dispatch(qntyInc({ id: key.id }))}
-            />
-          </div>
-        </div>
-      </td>
-
-      {/* ITEM TOTAL */}
-      <td className="block lg:table-cell p-4 border font-bold text-green-700">
-        Total: ₹{key.price * key.qnty}
-      </td>
-
-      {/* ACTION */}
-      <td className="block lg:table-cell p-4 border">
-        <Button
-          size="sm"
-          variant="danger"
-          onClick={() => dispatch(proRemove({ id: key.id }))}
-        >
-          Remove
-        </Button>
-      </td>
-    </tr>
-  ))
+  const logout = () => {
+    localStorage.clear();
+    navigate("/home");
+  };
 
   return (
-    <div className="px-4 py-6">
-      <h1 className="text-2xl font-bold mb-2">My Cart</h1>
-
-      <h3 className="text-lg font-semibold mb-4">
-        Total Amount :
-        <span className="text-green-600 ml-2">₹{totAmount}</span>
-      </h3>
-
-      <div className="overflow-x-auto">
-        <Table className="w-full">
-          {/* Desktop header only */}
-          <thead className="hidden lg:table-header-group bg-gray-100">
-            <tr className="text-center">
-              <th>Image</th>
-              <th>Product</th>
-              <th>Price & Qty</th>
-              <th>Total</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>{ans}</tbody>
-        </Table>
+    <div className="cart-container">
+      {/* HEADER */}
+      <div className="cart-header">
+        <h1>My Cart</h1>
+        <span className="logout" onClick={logout}>
+          Logout
+        </span>
       </div>
+
+      {/* SUMMARY */}
+      <div className="cart-summary">
+        <div className="amount">
+          Total Amount: <span>₹{totalAmount}</span>
+        </div>
+
+        <button
+          className="checkout-btn"
+          onClick={() => navigate("/checkout")}
+        >
+          Proceed to Checkout
+        </button>
+      </div>
+
+      {/* CART ITEMS */}
+      {myData.length > 0 ? (
+        <div className="cart-list">
+          {myData.map((item) => (
+            <div className="cart-item" key={item.id}>
+              <img src={item.image} alt={item.name} />
+
+              <div className="cart-info">
+                <h3>{item.name}</h3>
+                <p className="category">Category: {item.category}</p>
+                <p className="desc">{item.description}</p>
+              </div>
+
+              <div className="cart-price">
+                ₹{item.price}
+                <div className="qty">
+                  <FaMinusSquare
+                    onClick={() => dispatch(qntyDec({ id: item.id }))}
+                  />
+                  <span>{item.qnty}</span>
+                  <FaPlusSquare
+                    onClick={() => dispatch(qntyInc({ id: item.id }))}
+                  />
+                </div>
+              </div>
+
+              <div className="cart-total">
+                ₹{item.price * item.qnty}
+              </div>
+
+              <button
+                className="remove-btn"
+                onClick={() => dispatch(proRemove({ id: item.id }))}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="empty-cart">
+          <h2>Your cart is empty 🛒</h2>
+          <p>Add some products to see them here</p>
+          <button onClick={() => navigate("/home")}>
+            Continue Shopping
+          </button>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default Mycart;  
-
-
-// now my cart looks like this and on incrase price it increase but due to incase of digit like 999, 2000, 43000--2 digit, 4 digit the cell got change and it affect screen 
-
+export default Mycart;
 

@@ -10,6 +10,8 @@ import AddProduct from './Admin/AddProduct'
 
 import Mycart from './Pages/Mycart'
 import Registration from './Pages/Registration'
+import Login from './Pages/Login'
+import Checkout from './Pages/Checkout'
 
 function App() {
 
@@ -20,13 +22,15 @@ function App() {
 
         <Routes>
 
-          <Route path='/' element={<Layout />}>
+          <Route className="pt-[120px] sm:pt-[180px]" path='/' element={<Layout />}>
             <Route index element={<Home />} />
             <Route path='home' element={<Home />} />
             <Route path='mycart' element={<Mycart />} />
             <Route path='registration' element={<Registration />} />
+            <Route path='login' element={<Login />} />
           </Route>
 
+          <Route path='checkout' element={<Checkout />} />
           <Route path='adminlogin' element={<AdminLogin />} />
         </Routes>
 

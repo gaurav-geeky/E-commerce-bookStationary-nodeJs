@@ -13,7 +13,6 @@ const cartSlice = createSlice({
             state.cart.push(actions.payload);
 
         },
-
         qntyInc: (state, actions) => {
 
             for (let i = 0; i < state.cart.length; i++) {
@@ -36,7 +35,6 @@ const cartSlice = createSlice({
         proRemove: (state, actions) => {
             state.cart = state.cart.filter(key => key.id != actions.payload.id);
         }
-
 
     }
 })

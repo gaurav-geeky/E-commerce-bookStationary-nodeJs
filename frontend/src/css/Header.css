@@ -1,0 +1,226 @@
+/* ================= HEADER ================= */
+.header {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: visible; 
+  position: fixed;
+  top: 0;
+  left: 0;
+   z-index: 1000;
+}
+
+/* ================= TOP BAR ================= */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  gap: 20px; 
+}
+
+.logo {
+  font-size: 34px;
+  font-weight: bold;
+  color: #1d4ed8;
+}
+
+/* ================= SEARCH ================= */
+.search-box {
+  display: flex;
+  flex: 1;
+  min-width: 0;      /* ⭐ KEY FIX */
+  max-width: 520px;
+  border: 1px solid #ddd;
+  border-radius: 30px;
+  overflow: hidden;
+}
+
+.search-box input {
+  flex: 1;
+  padding: 8px 14px;
+  border: none;
+  outline: none;
+}
+
+.search-box button {
+  background: #f97316;
+  border: none;
+  padding: 8px 14px;
+  color: #fff;
+  flex-shrink: 0;
+  min-width: 44px;
+}
+
+.header-icons { 
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0; 
+  /* border: 1px solid red;  */
+  gap: 20px;
+}
+
+/* ================= ACCOUNT ================= */
+.account { 
+  position: relative;
+}
+
+.account-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* dropdown */
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 140px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 9999;
+}
+
+.account-dropdown a {
+  display: block;
+  padding: 8px 12px;
+  color: black;
+}
+
+.account-dropdown a:hover {
+  background: #f3f4f6;
+}
+
+/* MOBILE FIX – dropdown never hides */
+@media (max-width: 480px) {
+  .account-dropdown {
+    left: 0;
+    right: auto;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .search-box {
+    width: 100%;
+  }
+
+  .search-box input {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+
+  .search-box button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+}
+
+
+/* ================= CART ================= */
+.cart {
+  position: relative;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: #f97316;
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+}
+
+/* ================= MENU BAR ================= */
+.menu-bar {
+  background: linear-gradient(to right, #020617, #111827);
+  padding: 10px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.menu-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.menu-links {
+  display: flex;
+  gap: 22px;
+}
+
+.menu-links a {
+  color: white !important;
+  font-size: 14px;
+}
+
+/* ================= WELCOME ================= */
+.welcome {
+  color: red;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* ================= HAMBURGER ================= */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .menu-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #020617;
+    padding: 10px 0;
+    z-index: 999;
+  }
+
+  .menu-links.open {
+    display: flex;
+  }
+
+  .menu-links a {
+    padding: 10px 18px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+
+}
+
+/* show Account text on desktop */
+@media (min-width: 640px) {
+  .account-text {
+    display: inline;
+  }
+}

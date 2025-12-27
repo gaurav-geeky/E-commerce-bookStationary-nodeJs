@@ -43,6 +43,15 @@ const AdminDashboard = () => {
           >
             ➕ Add Product
           </Link>
+
+          <Link
+            to="orderproduct"
+            className="text-white text-lg px-4 py-2 rounded-md
+              hover:bg-blue-700 transition shadow-sm"
+          >
+            ➕ Orders
+          </Link>
+
         </aside>
 
         {/* ===== RIGHT DATA AREA ===== */}

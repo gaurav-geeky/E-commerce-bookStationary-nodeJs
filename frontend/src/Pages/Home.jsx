@@ -72,7 +72,7 @@ const Home = () => {
           Add to Cart
         </Button>
       </Card.Body>
-      
+
     </Card>
   ));
 

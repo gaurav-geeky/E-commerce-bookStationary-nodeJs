@@ -1,19 +1,22 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 
 const Checkout = () => {
     const navigate = useNavigate();
     const cart = useSelector((state) => state.mycart.cart);
 
     const [instructionOpen, setInstructionOpen] = useState(false);
-    const [addressOpen, setAddressOpen] = useState(false);
     const [instruction, setInstruction] = useState("");
+
+    const [addressOpen, setAddressOpen] = useState(false);
+    const [altAddress, setAltAddress] = useState("");
 
     const name = localStorage.getItem("name");
     const address = localStorage.getItem("address");
+    const Id = localStorage.getItem("userid");
 
     useEffect(() => {
         if (!name) navigate("/home");
@@ -23,23 +26,24 @@ const Checkout = () => {
     let totalAmount = 0;
     let proName = "";
     let myImg = "";
+    let proId = "";
 
     cart.forEach((item) => {
         totalAmount += item.price * item.qnty;
         proName += item.name + ", ";
         myImg = item.image;
+        proId = item.id;
     });
 
     const totalProducts = cart.length;
-
     const totalQuantity = cart.reduce(
         (sum, item) => sum + item.qnty,
         0
     );
-
     const shippingFee = 0;
     const subtotal = totalAmount;
     const grandTotal = subtotal + shippingFee;
+
 
     /* ---------------- PAYMENT (UNCHANGED) ---------------- */
     const initPay = (data) => {
@@ -55,7 +59,18 @@ const Checkout = () => {
                 try {
                     const verifyURL = `${import.meta.env.VITE_BACKURL}/api/payment/verify`;
                     await axios.post(verifyURL, response);
-                } catch (error) {
+
+                    const orderURL = `${import.meta.env.VITE_BACKURL}/product/saveorder`;
+
+                    const resorder = await axios.post(orderURL, {
+                        totalPro: totalProducts,
+                        totalQty: totalQuantity, 
+                        userid: Id, 
+                    })
+                    console.log(resorder.data); 
+
+                } 
+                catch (error) {
                     console.log(error);
                 }
             },
@@ -74,6 +89,21 @@ const Checkout = () => {
         }
     };
 
+    const saveaddress = async (id) => {
+        let api = `${import.meta.env.VITE_BACKURL}/product/saveaddress`;
+        const response =
+            await axios.post(api, { userid: id, address: altAddress, });
+        setAddressOpen(false);
+        console.log(response.data);
+    }
+
+    const saveinstruction = async (id) => {
+        let api = `${import.meta.env.VITE_BACKURL}/product/saveinstruction`;
+        const response =
+            await axios.post(api, { userid: id, instruction: instruction, });
+        setInstructionOpen(false);
+        console.log(response.data);
+    }
 
 
     //  return jsx
@@ -99,8 +129,8 @@ const Checkout = () => {
                             >
                                 Add / Change Shipping Address
                             </button>
-                            {/* give address line 187 */}
-                            
+                            {/* give address below addressOpen && */}
+
                         </div>
 
                         <button
@@ -109,7 +139,7 @@ const Checkout = () => {
                         >
                             Add delivery instructions
                         </button>
-                        {/* give instruction line 198  */}
+                        {/* give instruction below instructionOpen &&  */}
                     </div>
 
                     {/* PAYMENT */}
@@ -139,9 +169,7 @@ const Checkout = () => {
                                     {shippingFee === 0 ? "FREE" : `₹${shippingFee}`}
                                 </span>
                             </div>
-
                             <hr />
-
                             <div className="flex justify-between font-semibold text-base">
                                 <span>Total</span>
                                 <span>₹{grandTotal}</span>
@@ -184,16 +212,25 @@ const Checkout = () => {
                 </div>
             </div>
 
+
             {/* ADDRESS form */}
             {addressOpen && (
-                <Modal title="Shipping Address" onClose={() => setAddressOpen(false)}>
-                    <input className="input" placeholder="Full Name" />
-                    <input className="input" placeholder="Address" />
-                    <input className="input" placeholder="City" />
-                    <input className="input" placeholder="Pincode" />
-                    <button className="btn-primary">Save Address</button>
+                <Modal title="Shipping Address"
+                    onClose={() => setAddressOpen(false)}>
+                    <input
+                        className="input border px-2 py-1 w-[350px]"
+                        placeholder="Alternate Address"
+                        value={altAddress}
+                        onChange={(e) => setAltAddress(e.target.value)}
+                    />
+                    <br />
+                    <button
+                        className="btn-primary"
+                        onClick={() => saveaddress(Id)}
+                    >Save Address</button>
                 </Modal>
             )}
+
 
             {/* MODAL instruction form */}
             {instructionOpen && (
@@ -208,7 +245,10 @@ const Checkout = () => {
                         value={instruction}
                         onChange={(e) => setInstruction(e.target.value)}
                     />
-                    <button className="btn-primary mt-3">Save</button>
+                    <button
+                        className="btn-primary mt-3"
+                        onClick={() => saveinstruction(Id)}
+                    >Save Instructions</button>
                 </Modal>
             )}
         </div>
@@ -229,6 +269,5 @@ const Modal = ({ title, children, onClose }) => (
 );
 
 export default Checkout;
-
 
 

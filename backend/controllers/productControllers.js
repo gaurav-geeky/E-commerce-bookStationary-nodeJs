@@ -7,6 +7,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET
+const Order = require("../models/Order");
 
 
 const brandDisplay = async (req, res) => {
@@ -59,7 +60,6 @@ const userLogin = async (req, res) => {
 // function inside login for authentication. 
 const userAuth = async (req, res) => {
     const token = req.header("auth-token");
-
     if (!token) return res.status(400).json("No token found.");
 
     try {
@@ -73,12 +73,43 @@ const userAuth = async (req, res) => {
     }
 }
 
+const SaveAddress = async (req, res) => {
+    const { userid, address } = req.body
+    if (!userid || !address) {
+        res.status(401).json({ msg: "No userId and Address!" })
+    }
+    const user = await userModel.findByIdAndUpdate(userid,
+        { alternateaddress: address }
+    )
+    res.status(200).json({ msg: "Alternate address saved.", user });
+}
+
+const SaveInstruction = async (req, res) => {
+    const { userid, instruction } = req.body
+    if (!userid || !instruction) {
+        res.status(401).json({ msg: "No userId and Instructions!" })
+    }
+    const user = await userModel.findByIdAndUpdate(userid,
+        { instructions: instruction }
+    )
+    res.status(200).json({ msg: "Alternate address saved.", user });
+}
+
+
+const SaveOrder = async (req, res) => {
+    console.log(req.body)
+    res.send("ok order save");
+}
 
 module.exports = {
     brandDisplay,
     userRegisteration,
     userLogin,
     userAuth,
+    SaveAddress,
+    SaveInstruction,
+    SaveOrder,
+
 
 }
 

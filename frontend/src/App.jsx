@@ -7,11 +7,14 @@ import Home from './Pages/Home'
 import AdminLogin from './Admin/AdminLogin'
 import AdminDashboard from './Admin/AdminDashboard'
 import AddProduct from './Admin/AddProduct'
+import Orders from './Admin/Orders'
+
 
 import Mycart from './Pages/Mycart'
 import Registration from './Pages/Registration'
 import Login from './Pages/Login'
 import Checkout from './Pages/Checkout'
+
 
 function App() {
 
@@ -37,6 +40,7 @@ function App() {
         <Routes>
           <Route path='/admindash' element={<AdminDashboard />}>
             <Route path='addproduct' element={<AddProduct />} />
+            <Route path='orderproduct' element={<Orders />} />
           </Route>
 
         </Routes>

@@ -8,11 +8,27 @@ const cartSlice = createSlice({
         cart: []
     },
     reducers: {
-        addToCart: (state, actions) => {
-            console.log(actions.payload);
-            state.cart.push(actions.payload);
+        // addToCart: (state, actions) => {
+        //     console.log(actions.payload);
+        //     state.cart.push(actions.payload);
 
+        // }, 
+        addToCart: (state, action) => {
+            const item = action.payload;
+
+            const exist = state.cart.find(
+                (cartItem) => cartItem.id === item.id
+            );
+
+            if (exist) {
+                // product already in cart return
+                return
+            } else {
+                // product not in cart → add new
+                state.cart.push({ ...item, qnty: 1 });
+            }
         },
+
         qntyInc: (state, actions) => {
 
             for (let i = 0; i < state.cart.length; i++) {
@@ -35,7 +51,6 @@ const cartSlice = createSlice({
         proRemove: (state, actions) => {
             state.cart = state.cart.filter(key => key.id != actions.payload.id);
         }
-
     }
 })
 

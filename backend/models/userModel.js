@@ -8,7 +8,12 @@ const userSchema = new mongoose.Schema({
     shippingadd: String,
     pincode: Number,
     alternateaddress: String, 
+    instructions: String, 
     password: String,
 })
 
 module.exports = mongoose.model("user", userSchema);
+
+
+// admin order - name, addres , product details 
+

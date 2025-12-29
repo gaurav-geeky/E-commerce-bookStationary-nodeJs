@@ -7,7 +7,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET
-const Order = require("../models/Order");
 
 
 const brandDisplay = async (req, res) => {
@@ -62,9 +61,8 @@ const userAuth = async (req, res) => {
     const token = req.header("auth-token");
     if (!token) return res.status(400).json("No token found.");
 
-    try {
+    try { 
         const decode = await jwt.verify(token, secret);
-
         const user = await userModel.findById(decode.id).select("-password -email");
         res.status(200).json({ msg: `ok, ${user.name}'s token is verified.`, user });
     }
@@ -95,11 +93,11 @@ const SaveInstruction = async (req, res) => {
     res.status(200).json({ msg: "Alternate address saved.", user });
 }
 
-
 const SaveOrder = async (req, res) => {
-    console.log(req.body)
-    res.send("ok order save");
+    console.log(req.body); 
+    res.send("okk"); 
 }
+
 
 module.exports = {
     brandDisplay,
@@ -108,10 +106,10 @@ module.exports = {
     userAuth,
     SaveAddress,
     SaveInstruction,
-    SaveOrder,
-
+    SaveOrder, 
 
 }
+
 
 
 

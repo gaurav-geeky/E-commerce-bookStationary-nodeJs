@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,6 +19,7 @@ const Checkout = () => {
     const address = localStorage.getItem("address");
     const Id = localStorage.getItem("userid");
 
+
     useEffect(() => {
         if (!name) navigate("/home");
     }, [name, navigate]);
@@ -26,13 +28,11 @@ const Checkout = () => {
     let totalAmount = 0;
     let proName = "";
     let myImg = "";
-    let proId = "";
 
     cart.forEach((item) => {
         totalAmount += item.price * item.qnty;
         proName += item.name + ", ";
         myImg = item.image;
-        proId = item.id;
     });
 
     const totalProducts = cart.length;
@@ -43,6 +43,12 @@ const Checkout = () => {
     const shippingFee = 0;
     const subtotal = totalAmount;
     const grandTotal = subtotal + shippingFee;
+
+    // 🔴 CHANGED: minimal product data
+    const simpleItems = cart.map(item => ({
+        name: item.name,
+        quantity: item.qnty
+    }));
 
 
     /* ---------------- PAYMENT (UNCHANGED) ---------------- */
@@ -55,29 +61,39 @@ const Checkout = () => {
             description: "Order Payment",
             image: myImg,
             order_id: data.id,
+
+            // 🔴 CHANGED
             handler: async (response) => {
                 try {
-                    const verifyURL = `${import.meta.env.VITE_BACKURL}/api/payment/verify`;
-                    await axios.post(verifyURL, response);
+                    // verify payment
+                    await axios.post(
+                        `${import.meta.env.VITE_BACKURL}/api/payment/verify`,
+                        response
+                    );
 
-                    const orderURL = `${import.meta.env.VITE_BACKURL}/product/saveorder`;
+                    // save minimal order
+                    const orderdetail = await axios.post(
+                        `${import.meta.env.VITE_BACKURL}/product/saveorder`,
+                        {
+                            name,
+                            address: altAddress || address,
+                            products: simpleItems,
+                            totalPrice: grandTotal
+                        }
+                    ); 
+                    console.log(orderdetail); 
 
-                    const resorder = await axios.post(orderURL, {
-                        totalPro: totalProducts,
-                        totalQty: totalQuantity, 
-                        userid: Id, 
-                    })
-                    console.log(resorder.data); 
-
-                } 
-                catch (error) {
-                    console.log(error);
+                } catch (err) {
+                    console.log(err);
                 }
             },
+
+            ///////////
             theme: { color: "#3399cc" },
         };
         new window.Razorpay(options).open();
     };
+
 
     const handlePay = async () => {
         try {
@@ -269,5 +285,3 @@ const Modal = ({ title, children, onClose }) => (
 );
 
 export default Checkout;
-
-

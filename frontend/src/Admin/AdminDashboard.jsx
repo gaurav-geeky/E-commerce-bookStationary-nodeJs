@@ -11,7 +11,7 @@ const AdminDashboard = () => {
         w-full bg-gray-800 p-4 rounded-lg
         shadow-[0_4px_20px_rgba(255,255,255,0.25)] sm:text-left"
       >
-        Welcome To AdminDashBoard
+        Welcome To Admin DashBoard
       </header>
 
       {/* ===== CONTENT ===== */}
@@ -50,6 +50,14 @@ const AdminDashboard = () => {
               hover:bg-blue-700 transition shadow-sm"
           >
             ➕ Orders
+          </Link>
+
+          <Link
+            to="productlist"
+            className="text-white text-lg px-4 py-2 rounded-md
+              hover:bg-blue-700 transition shadow-sm"
+          >
+            ➕ Product Lists
           </Link>
 
         </aside>

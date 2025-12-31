@@ -1,3 +1,4 @@
+
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -10,10 +11,7 @@ const userSchema = new mongoose.Schema({
     alternateaddress: String, 
     instructions: String, 
     password: String,
-})
+}); 
 
-module.exports = mongoose.model("user", userSchema);
-
-
-// admin order - name, addres , product details 
+module.exports = mongoose.model("User", userSchema);
 

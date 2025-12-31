@@ -7,12 +7,22 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET
+const orderModel = require('../models/order');
 
 
 const brandDisplay = async (req, res) => {
-    const product = await productModel.find();
-    res.status(200).send(product, { msg: "ok product info." });
-}
+    try {
+        // 👇 fetch ONLY top brand products
+        const products = await productModel.find();
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({
+            msg: "Failed to fetch top brand products"
+        });
+    }
+};
+
 
 const userRegisteration = async (req, res) => {
     const { name, email, contact, city, address, pincode } = req.body;
@@ -41,19 +51,18 @@ const userLogin = async (req, res) => {
     const user = await userModel.findOne({ email: email });
 
     if (!user) {
-        res.status(400).send({ msg: "Invalid email" });
+        return res.status(400).send({ msg: "Invalid email" });
     }
 
     const passValid = await bcrypt.compare(password, user.password);
 
     if (!passValid) {
-        res.status(400).send({ msg: "Invalid password." });
+        return res.status(400).send({ msg: "Invalid password." });
     }
-
 
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: "3d" });
 
-    res.send({ msg: "ok login", user, token });
+    return res.send({ msg: "user login successfull", user, token });
 }
 
 // function inside login for authentication. 
@@ -61,7 +70,7 @@ const userAuth = async (req, res) => {
     const token = req.header("auth-token");
     if (!token) return res.status(400).json("No token found.");
 
-    try { 
+    try {
         const decode = await jwt.verify(token, secret);
         const user = await userModel.findById(decode.id).select("-password -email");
         res.status(200).json({ msg: `ok, ${user.name}'s token is verified.`, user });
@@ -94,9 +103,29 @@ const SaveInstruction = async (req, res) => {
 }
 
 const SaveOrder = async (req, res) => {
-    console.log(req.body); 
-    res.send("okk"); 
+
+    console.log("product BODY:", req.body);
+    const { name, userId, products, totalPrice } = req.body;
+    try {
+        const saveorder = await orderModel.create({
+            name: name,
+            userId: userId,
+            products: products,
+            totalPrice: totalPrice,
+        });
+
+        res.status(201).json({ saveorder });
+    }
+    catch (error) {
+        res.status(500).json({ msg: "Order save failed" });
+    }
+};
+
+const GetOrder = async (req, res) => {
+    const order = await orderModel.find().populate("userId");
+    res.json({ order, msg: "ok got order data" });
 }
+
 
 
 module.exports = {
@@ -106,7 +135,8 @@ module.exports = {
     userAuth,
     SaveAddress,
     SaveInstruction,
-    SaveOrder, 
+    SaveOrder,
+    GetOrder,
 
 }
 

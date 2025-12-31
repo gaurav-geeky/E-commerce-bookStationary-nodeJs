@@ -9,11 +9,22 @@ const AdminLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        let api = `${import.meta.env.VITE_BACKURL}/admin/login`;
-        const response = await axios.post(api, { adminemail: adminemail, password: password })
-        console.log(response);
-        alert(response.data); 
-        navigate("/admindash");
+
+        try {
+            let api = `${import.meta.env.VITE_BACKURL}/admin/login`;
+            const response = await axios.post(api, { adminemail: adminemail, password: password })
+            console.log(response);
+            alert(response.data);
+            navigate("/admindash");
+
+        }
+        catch (error) {
+            if (error.response) {
+                alert(error.response.data); // "Invalid credentials"
+            } else {
+                alert("Server not reachable");
+            }
+        }
     }
 
     return (

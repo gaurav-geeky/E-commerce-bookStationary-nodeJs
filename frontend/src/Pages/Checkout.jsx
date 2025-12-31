@@ -6,8 +6,10 @@ import { useNavigate } from "react-router-dom";
 
 
 const Checkout = () => {
+
     const navigate = useNavigate();
     const cart = useSelector((state) => state.mycart.cart);
+    console.log("cart checkout : ", cart);
 
     const [instructionOpen, setInstructionOpen] = useState(false);
     const [instruction, setInstruction] = useState("");
@@ -18,7 +20,6 @@ const Checkout = () => {
     const name = localStorage.getItem("name");
     const address = localStorage.getItem("address");
     const Id = localStorage.getItem("userid");
-
 
     useEffect(() => {
         if (!name) navigate("/home");
@@ -44,66 +45,71 @@ const Checkout = () => {
     const subtotal = totalAmount;
     const grandTotal = subtotal + shippingFee;
 
-    // 🔴 CHANGED: minimal product data
     const simpleItems = cart.map(item => ({
         name: item.name,
         quantity: item.qnty
     }));
 
 
+
     /* ---------------- PAYMENT (UNCHANGED) ---------------- */
-    const initPay = (data) => {
-        const options = {
-            key: "rzp_test_RvMIObaIMWmXxA",
-            amount: grandTotal,
-            currency: data.currency,
-            name: proName,
-            description: "Order Payment",
-            image: myImg,
-            order_id: data.id,
-
-            // 🔴 CHANGED
-            handler: async (response) => {
-                try {
-                    // verify payment
-                    await axios.post(
-                        `${import.meta.env.VITE_BACKURL}/api/payment/verify`,
-                        response
-                    );
-
-                    // save minimal order
-                    const orderdetail = await axios.post(
-                        `${import.meta.env.VITE_BACKURL}/product/saveorder`,
-                        {
-                            name,
-                            address: altAddress || address,
-                            products: simpleItems,
-                            totalPrice: grandTotal
-                        }
-                    ); 
-                    console.log(orderdetail); 
-
-                } catch (err) {
-                    console.log(err);
-                }
-            },
-
-            ///////////
-            theme: { color: "#3399cc" },
-        };
-        new window.Razorpay(options).open();
-    };
-
-
     const handlePay = async () => {
         try {
+            // 1️⃣ Create order from backend
             const orderURL = `${import.meta.env.VITE_BACKURL}/api/payment/orders`;
-            const { data } = await axios.post(orderURL, { amount: grandTotal });
-            initPay(data.data);
+            const { data } = await axios.post(orderURL, {
+                amount: grandTotal,
+            });
+
+            const order = data.data;  // handle initpay
+
+            // 2️⃣ Open Razorpay
+            const options = {
+                key: "rzp_test_RvMIObaIMWmXxA",
+                amount: grandTotal * 100,
+                currency: order.currency,
+                name: proName,
+                description: "Order Payment",
+                image: myImg,
+                order_id: order.id,
+
+                // 3️⃣ After successful payment
+                handler: async (response) => {
+                    try {
+                        // verify payment
+                        await axios.post(
+                            `${import.meta.env.VITE_BACKURL}/api/payment/verify`,
+                            response
+                        );
+
+                        // save order
+                        const orderdetail = await axios.post(
+                            `${import.meta.env.VITE_BACKURL}/product/saveorder`,
+                            {
+                                name: name,
+                                userId: Id,
+                                products: simpleItems,
+                                totalPrice: grandTotal,
+                            }
+                        );
+
+                        console.log("orderdetail", orderdetail);
+
+                    } catch (err) {
+                        console.log("Payment handler error:", err);
+                    }
+                },
+
+                theme: { color: "#3399cc" },
+            };
+
+            new window.Razorpay(options).open();
+
         } catch (error) {
-            console.log(error);
+            console.log("HandlePay error:", error);
         }
     };
+
 
     const saveaddress = async (id) => {
         let api = `${import.meta.env.VITE_BACKURL}/product/saveaddress`;
@@ -204,7 +210,6 @@ const Checkout = () => {
                 {/* ---------------- RIGHT SECTION ---------------- */}
                 <div className="border p-4 sticky top-5 h-fit">
                     <h2 className="font-semibold mb-4">IN YOUR BAG</h2>
-
                     {cart.map((item) => (
                         <div key={item._id} className="flex gap-4 mb-4">
                             <img
@@ -219,7 +224,6 @@ const Checkout = () => {
                             </div>
                         </div>
                     ))}
-
                     <hr />
                     <div className="flex justify-between mt-4 font-semibold">
                         <span>Total</span>
@@ -227,6 +231,7 @@ const Checkout = () => {
                     </div>
                 </div>
             </div>
+
 
 
             {/* ADDRESS form */}

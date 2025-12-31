@@ -17,26 +17,22 @@ const storage = new CloudinaryStorage({
 
 const upload = multer({ storage: storage }).array('images', 10); // image size
 
-
 const adminLogin = async (req, res) => {
-    const { adminemail, password } = req.body;
-
-    const admin = await adminModel.findOne({ adminemail: adminemail });
-
     try {
-        if (!admin) {
-            res.status(401).send("Invalid admin email");
-        }
-        if (admin.password != password) {
-            res.status(401).send("Invalid admin Password");
-        }
-        res.status(201).send("login successfull");
-    }
-    catch (error) {
-        res.status(401).send("login failed");
-    }
+        const { adminemail, password } = req.body;
 
-}
+        const admin = await adminModel.findOne({ adminemail });
+
+        if (!admin || admin.password !== password) {
+            return res.status(401).send("Invalid credentials");
+        }
+
+        res.status(200).send("Login successful");
+
+    } catch (err) {
+        res.status(500).send("Server error");
+    }
+};
 
 const addProduct = async (req, res) => {
     upload(req, res, async (err) => {
@@ -56,16 +52,43 @@ const addProduct = async (req, res) => {
                 images: imageUrls
             })
 
-            res.status(200).send({msg: "Data saved successfully!", product});
+            res.status(200).send({ msg: "Data saved successfully!", product });
         }
         catch (error) {
             res.status(500).send("Error saving data: " + error.message);
         }
-    }); 
+    });
+}
+
+const ShowProduct = async (req, res) => {
+    const myproduct = await productModel.find();
+    res.status(200).send({ msg: "ok product data found", myproduct });
+}
+
+const ProductDelete = async (req, res) => {
+    const { id } = req.query;
+    const product = await productModel.findByIdAndDelete(id);
+    res.send({ msg: "Ok product deleted", product });
+}
+
+const ProductUpdate = async (req, res) => {
+    // console.log(req.body);
+    const { _id, name, category, description, price } = req.body;
+    const editData = await productModel.findByIdAndUpdate(_id, {
+        name: name,
+        category: category,
+        description: description,
+        price: price,
+    })
+    res.send({ msg: "okk edit data", editData }); 
 }
 
 module.exports = {
     adminLogin,
     addProduct,
+    ShowProduct,
+    ProductDelete,
+    ProductUpdate,
+
 }
 

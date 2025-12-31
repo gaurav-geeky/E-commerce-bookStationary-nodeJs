@@ -8,6 +8,7 @@ import AdminLogin from './Admin/AdminLogin'
 import AdminDashboard from './Admin/AdminDashboard'
 import AddProduct from './Admin/AddProduct'
 import Orders from './Admin/Orders'
+import ProductList from './Admin/ProductList'
 
 
 import Mycart from './Pages/Mycart'
@@ -41,6 +42,7 @@ function App() {
           <Route path='/admindash' element={<AdminDashboard />}>
             <Route path='addproduct' element={<AddProduct />} />
             <Route path='orderproduct' element={<Orders />} />
+            <Route path='productlist' element={<ProductList />} />
           </Route>
 
         </Routes>

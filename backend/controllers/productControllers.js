@@ -113,8 +113,7 @@ const SaveOrder = async (req, res) => {
             products: products,
             totalPrice: totalPrice,
         });
-
-        res.status(201).json({ saveorder });
+        res.status(201).json({ saveorder, msg: "Order successfull" });
     }
     catch (error) {
         res.status(500).json({ msg: "Order save failed" });
@@ -125,6 +124,30 @@ const GetOrder = async (req, res) => {
     const order = await orderModel.find().populate("userId");
     res.json({ order, msg: "ok got order data" });
 }
+
+const GetInvoice = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        console.log("Invoice Order ID:", orderId);
+
+        const order = await orderModel.findById(orderId);
+
+        if (!order) {
+            return res.status(404).json({
+                msg: "Order not found"
+            });
+        }
+        res.status(200).json({ order, msg: "ok got order detail using orderId" });
+
+    } catch (error) {
+        console.log("GetInvoice Error:", error);
+
+        res.status(500).json({
+            msg: "Failed to fetch invoice"
+        });
+    }
+};
+
 
 
 
@@ -137,6 +160,7 @@ module.exports = {
     SaveInstruction,
     SaveOrder,
     GetOrder,
+    GetInvoice,
 
 }
 

@@ -12,6 +12,9 @@ route.post("/saveinstruction", ProductController.SaveInstruction);
 route.post("/saveorder", ProductController.SaveOrder);
 route.get("/getorder", ProductController.GetOrder);
 
+route.post("/saveorder", ProductController.SaveOrder);
+route.get("/getinvoice/:orderId", ProductController.GetInvoice);
+
 
 module.exports = route;
 

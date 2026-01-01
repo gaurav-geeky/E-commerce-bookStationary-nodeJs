@@ -16,31 +16,6 @@ const Orders = () => {
     loadData();
   }, []);
 
-  // const result = mydata.map((key) => {
-  //   return (
-  //     <>
-  //       <tr>
-  //         <td style={{ textAlign: "center" }}  > {key.name} </td>
-
-  //         <td style={{ textAlign: "center" }}  >
-  //           {key.products.map((item, i) => (
-  //             <div key={i}>
-  //               <div>pro name: {item.name}  </div>
-  //               <p> pro qty: {item.quantity} </p>
-  //             </div>
-  //           ))}
-  //         </td>
-
-  //         <td style={{ textAlign: "center" }}  > {key.totalPrice} </td>
-
-  //         <td style={{ textAlign: "center" }}  > {key.userId?.alternateaddress} </td>
-  //         <td style={{ textAlign: "center" }}  > {key.userId?.instructions} </td>
-
-  //       </tr>
-  //     </>
-  //   )
-  // })
-
   return (
     <div className="text-white p-6 w-full">
       <h1 className="text-2xl font-semibold mb-6 text-white">Orders</h1>
@@ -48,7 +23,7 @@ const Orders = () => {
       <table className="text-white w-full border text-center">
         <thead>
           <tr>
-            <th className="text-white border p-2">Order Name</th>
+            <th className="text-white border p-2">Buyer Name</th>
             <th className="text-white border p-2">Products</th>
             <th className="text-white border p-2">Quantity</th>
             <th className="text-white border p-2">Total Price</th>

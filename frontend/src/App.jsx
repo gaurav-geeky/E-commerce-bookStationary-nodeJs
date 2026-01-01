@@ -15,6 +15,8 @@ import Mycart from './Pages/Mycart'
 import Registration from './Pages/Registration'
 import Login from './Pages/Login'
 import Checkout from './Pages/Checkout'
+import Invoice from './Pages/Invoice'
+
 
 
 function App() {
@@ -35,6 +37,7 @@ function App() {
           </Route>
 
           <Route path='checkout' element={<Checkout />} />
+          <Route path='/invoice/:orderId' element={<Invoice />} />
           <Route path='adminlogin' element={<AdminLogin />} />
         </Routes>
 

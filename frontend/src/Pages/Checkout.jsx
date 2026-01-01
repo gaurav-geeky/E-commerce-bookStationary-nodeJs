@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import loadRazorpay from "../components/LoadRazorpay";
-
+import logo from "../assets/bookLogo.png";
+import "../css/Header.css";
 const Checkout = () => {
 
-
     const navigate = useNavigate();
+
     const cart = useSelector((state) => state.mycart.cart);
-    // console.log("cart checkout : ", cart);
 
     const [instructionOpen, setInstructionOpen] = useState(false);
     const [instruction, setInstruction] = useState("");
@@ -83,8 +83,8 @@ const Checkout = () => {
                         response
                     );
 
-                    await axios.post(
-                        `${import.meta.env.VITE_BACKURL}/product/saveorder`,
+                    const orderapi = `${import.meta.env.VITE_BACKURL}/product/saveorder`;
+                    const orderres = await axios.post(orderapi,
                         {
                             name,
                             userId: Id,
@@ -92,6 +92,9 @@ const Checkout = () => {
                             totalPrice: grandTotal,
                         }
                     );
+                    alert(orderres.data.msg);
+
+                    navigate(`/invoice/${orderres.data.saveorder._id}`)
                 },
                 theme: { color: "#3399cc" },
             };
@@ -122,7 +125,14 @@ const Checkout = () => {
 
     return (
         <div className="max-w-7xl mx-auto p-6 bg-gray-100">
-            <h1 className="text-2xl font-bold mb-6 text-center">CHECKOUT</h1>
+
+            <div className="flex justify-around">
+                <div className="logo">
+                    <img src={logo} alt="logo" /> BookHunt
+                </div>
+
+                <div className="text-4xl font-bold text-pink-600">CHECKOUT PAGE</div>
+            </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* ---------------- LEFT SECTION ---------------- */}

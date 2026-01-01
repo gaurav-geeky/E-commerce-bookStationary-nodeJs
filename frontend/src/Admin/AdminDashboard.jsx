@@ -1,5 +1,7 @@
 
 import { Link, Outlet } from "react-router-dom";
+import "../css/Header.css";
+import logo from "../assets/bookLogo.png";
 
 const AdminDashboard = () => {
   return (
@@ -12,6 +14,11 @@ const AdminDashboard = () => {
         shadow-[0_4px_20px_rgba(255,255,255,0.25)] sm:text-left"
       >
         Welcome To Admin DashBoard
+
+        <div className="logo">
+          <img src={logo} alt="logo" /> BookHunt
+        </div>
+
       </header>
 
       {/* ===== CONTENT ===== */}

@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import Nav from "react-bootstrap/Nav";
-
 import "../css/Header.css";
+import logo from "../assets/bookLogo.png";
 
 const Header = () => {
   const myData = useSelector((state) => state.mycart.cart);
@@ -32,7 +32,9 @@ const Header = () => {
     <header className="header">
       {/* ================= TOP BAR ================= */}
       <div className="top-bar">
-        <div className="logo">BookHunt</div>
+        <div className="logo">
+          <img src={logo} alt="logo" /> BookHunt
+        </div>
 
         <div className="search-box">
           <input type="text" placeholder="Search products…" />

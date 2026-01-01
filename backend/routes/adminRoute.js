@@ -7,6 +7,7 @@ route.post("/addproduct", adminController.addProduct);
 route.get("/showproduct", adminController.ShowProduct); 
 route.delete("/productdelete", adminController.ProductDelete); 
 route.put("/productupdate", adminController.ProductUpdate); 
+route.post("/searchproduct", adminController.ProductSearch); 
 
 
 module.exports = route; 

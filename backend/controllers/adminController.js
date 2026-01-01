@@ -80,7 +80,30 @@ const ProductUpdate = async (req, res) => {
         description: description,
         price: price,
     })
-    res.send({ msg: "okk edit data", editData }); 
+    res.send({ msg: "okk edit data", editData });
+}
+
+
+const ProductSearch = async (req, res) => {
+    try {
+        const { search } = req.body;
+
+        if (!search || !search.trim()) {
+            return res.status(400).json({ msg: "search value required" });
+        }
+
+        const proData = await productModel.find({
+            $or: [
+                { name: { $regex: search, $options: "i" } },
+                { category: { $regex: search, $options: "i" } },
+                { description: { $regex: search, $options: "i" } },
+            ]
+        });
+        res.send(proData);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 }
 
 module.exports = {
@@ -89,6 +112,8 @@ module.exports = {
     ShowProduct,
     ProductDelete,
     ProductUpdate,
+    ProductSearch,
+
 
 }
 

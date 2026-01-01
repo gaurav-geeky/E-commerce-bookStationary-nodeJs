@@ -3,13 +3,14 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import loadRazorpay from "../components/LoadRazorpay";
 
 const Checkout = () => {
 
+
     const navigate = useNavigate();
     const cart = useSelector((state) => state.mycart.cart);
-    console.log("cart checkout : ", cart);
+    // console.log("cart checkout : ", cart);
 
     const [instructionOpen, setInstructionOpen] = useState(false);
     const [instruction, setInstruction] = useState("");
@@ -51,19 +52,22 @@ const Checkout = () => {
     }));
 
 
-
     /* ---------------- PAYMENT (UNCHANGED) ---------------- */
     const handlePay = async () => {
         try {
-            // 1️⃣ Create order from backend
+            const loaded = await loadRazorpay();
+            if (!loaded) {
+                alert("Razorpay SDK failed to load");
+                return;
+            }
+
             const orderURL = `${import.meta.env.VITE_BACKURL}/api/payment/orders`;
             const { data } = await axios.post(orderURL, {
                 amount: grandTotal,
             });
 
-            const order = data.data;  // handle initpay
+            const order = data.data;
 
-            // 2️⃣ Open Razorpay
             const options = {
                 key: "rzp_test_RvMIObaIMWmXxA",
                 amount: grandTotal * 100,
@@ -73,43 +77,31 @@ const Checkout = () => {
                 image: myImg,
                 order_id: order.id,
 
-                // 3️⃣ After successful payment
                 handler: async (response) => {
-                    try {
-                        // verify payment
-                        await axios.post(
-                            `${import.meta.env.VITE_BACKURL}/api/payment/verify`,
-                            response
-                        );
+                    await axios.post(
+                        `${import.meta.env.VITE_BACKURL}/api/payment/verify`,
+                        response
+                    );
 
-                        // save order
-                        const orderdetail = await axios.post(
-                            `${import.meta.env.VITE_BACKURL}/product/saveorder`,
-                            {
-                                name: name,
-                                userId: Id,
-                                products: simpleItems,
-                                totalPrice: grandTotal,
-                            }
-                        );
-
-                        console.log("orderdetail", orderdetail);
-
-                    } catch (err) {
-                        console.log("Payment handler error:", err);
-                    }
+                    await axios.post(
+                        `${import.meta.env.VITE_BACKURL}/product/saveorder`,
+                        {
+                            name,
+                            userId: Id,
+                            products: simpleItems,
+                            totalPrice: grandTotal,
+                        }
+                    );
                 },
-
                 theme: { color: "#3399cc" },
             };
+            const rzp = new window.Razorpay(options);
+            rzp.open();
 
-            new window.Razorpay(options).open();
-
-        } catch (error) {
-            console.log("HandlePay error:", error);
+        } catch (err) {
+            console.log("HandlePay error:", err);
         }
     };
-
 
     const saveaddress = async (id) => {
         let api = `${import.meta.env.VITE_BACKURL}/product/saveaddress`;
@@ -128,7 +120,6 @@ const Checkout = () => {
     }
 
 
-    //  return jsx
     return (
         <div className="max-w-7xl mx-auto p-6 bg-gray-100">
             <h1 className="text-2xl font-bold mb-6 text-center">CHECKOUT</h1>

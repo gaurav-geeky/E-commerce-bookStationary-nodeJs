@@ -40,7 +40,7 @@ const addProduct = async (req, res) => {
             return res.status(500).send("Error uploading files: " + err.message);
         }
         try {
-            const { name, category, description, price } = req.body;
+            const { name, category, description, price, isTopBrand } = req.body;
             const imageUrls = req.files.map(file => file.path);
 
             const product = await productModel.create({
@@ -48,6 +48,7 @@ const addProduct = async (req, res) => {
                 category: category,
                 description: description,
                 price: price,
+                isTopBrand: isTopBrand === "true",
                 defaultImage: imageUrls[0],
                 images: imageUrls
             })

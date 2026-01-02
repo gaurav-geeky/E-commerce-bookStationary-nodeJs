@@ -5,17 +5,26 @@ import { useState } from "react";
 import axios from "axios";
 
 const AddProduct = () => {
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+    name: "",
+    category: "",
+    description: "",
+    price: "",
+    isTopBrand: false
+  });
+
   const [images, setImages] = useState([]);
 
   const [preview, setPreview] = useState([]); // 👈 NEW (for image preview)
 
-
   const handleInput = (e) => {
-    const { name, value } = e.target
-    setInput(values => ({ ...values, [name]: value }));
-    console.log(input);
-  }
+    const { name, type, value, checked } = e.target;
+    setInput(prev => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value
+    }));
+  };
+
 
   const handleImage = (e) => {
     const files = Array.from(e.target.files); // convert FileList → Array
@@ -83,6 +92,16 @@ const AddProduct = () => {
             <Form.Control
               type="text"
               name="name"
+              onChange={handleInput}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Check
+              type="checkbox"
+              label="Mark as Top Brand"
+              name="isTopBrand"
+              checked={input.isTopBrand}
               onChange={handleInput}
             />
           </Form.Group>

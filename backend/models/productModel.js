@@ -7,6 +7,10 @@ const productSchema = new mongoose.Schema({
     price: Number,
     defaultImage: String,
     images: [String],
+    isTopBrand: {
+        type: Boolean,
+        default: false
+    }
 })
 
 module.exports = mongoose.model("product", productSchema); 

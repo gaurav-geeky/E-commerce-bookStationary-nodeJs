@@ -1,15 +1,12 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import logo from "../assets/bookLogo.png";
 import "../css/Invoice.css"
 
-
 const Invoice = () => {
     const { orderId } = useParams();
     const [order, setOrder] = useState(null);
-    const invoiceRef = useRef();
-
 
     useEffect(() => {
         const fetchOrder = async () => {
@@ -25,7 +22,6 @@ const Invoice = () => {
         fetchOrder();
     }, [orderId]);
 
-
     if (!order) {
         return <p style={{ textAlign: "center" }}>Loading invoice...</p>;
     }
@@ -34,11 +30,9 @@ const Invoice = () => {
         window.print();
     };
 
-
     return (
         <div className="min-h-screen bg-gray-100 py-10">
             <div
-                ref={invoiceRef}
                 className="max-w-3xl mx-auto bg-white p-8 shadow-md border">
 
                 {/* HEADER */}

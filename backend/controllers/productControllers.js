@@ -13,7 +13,7 @@ const orderModel = require('../models/order');
 const brandDisplay = async (req, res) => {
     try {
         // 👇 fetch ONLY top brand products
-        const products = await productModel.find();
+        const products = await productModel.find({ isTopBrand: true });
 
         res.status(200).json(products);
     } catch (error) {

@@ -5,111 +5,115 @@ import { useState } from "react";
 import axios from "axios";
 
 const AddProduct = () => {
-  const [input, setInput] = useState({
+
+
+  const initialState = {
     name: "",
     category: "",
     description: "",
     price: "",
-    isTopBrand: false
-  });
+    isTopBrand: false,
+  };
+
+  const resetForm = () => {
+    setInput(initialState);
+    setImages([]);
+    setPreview([]);
+  };
+  // for form clear on cancel
+
+
+  const [input, setInput] = useState(initialState);
 
   const [images, setImages] = useState([]);
-
-  const [preview, setPreview] = useState([]); // 👈 NEW (for image preview)
+  const [preview, setPreview] = useState([]);
 
   const handleInput = (e) => {
     const { name, type, value, checked } = e.target;
-    setInput(prev => ({
+    setInput((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
+  // handels input values 
 
 
   const handleImage = (e) => {
-    const files = Array.from(e.target.files); // convert FileList → Array
-    setImages(files); // existing logic (for upload)
-
-    // 👇 NEW: create preview URLs
-    const previewUrls = files.map(file => URL.createObjectURL(file));
-    setPreview(previewUrls);
+    const files = Array.from(e.target.files);
+    setImages(files);
+    setPreview(files.map((file) => URL.createObjectURL(file)));
   };
 
-  // remove img function
-  const removeImage = (removeIndex) => {
-    setPreview(prev =>
-      prev.filter((_, index) => index !== removeIndex)
-    );
-
-    setImages(prev =>
-      prev.filter((_, index) => index !== removeIndex)
-    );
+  const removeImage = (index) => {
+    setImages((prev) => prev.filter((_, i) => i !== index));
+    setPreview((prev) => prev.filter((_, i) => i !== index));
   };
-
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let api = `${import.meta.env.VITE_BACKURL}/admin/addproduct`;
+
+    const api = `${import.meta.env.VITE_BACKURL}/admin/addproduct`;
     const formData = new FormData();
 
     for (let key in input) {
       formData.append(key, input[key]);
     }
+    images.forEach((img) => formData.append("images", img));
 
-    for (let i = 0; i < images.length; i++) {
-      formData.append('images', images[i]);
-    }
+    const res = await axios.post(api, formData);
+    alert(res.data.msg);
+  };
 
-    const response = await axios.post(api, formData);
-    alert(response.data.msg);
-    console.log(response.data)
-  }
-
-
+  
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center px-4 py-8">
+      {/* MAIN CARD */}
+      <div className="w-full max-w-3xl bg-[#f9fafb] rounded-xl shadow-lg border border-gray-200 p-6 sm:p-8">
 
-      {/* ===== FORM CARD ===== */}
-      <div
-        className="
-          w-full 
-          max-w-md sm:max-w-lg lg:max-w-xl
-          bg-gray-900 text-white
-          p-4 sm:p-5 lg:p-6
-          rounded-lg
-          shadow-[0_4px_20px_rgba(255,255,255,0.15)]
-        "
-      >
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 border-b border-gray-600 pb-2">
-          Add Product
-        </h2>
+        {/* HEADER */}
+        <div className="mb-6 border-b pb-3">
+          <h2 className="text-2xl font-semibold text-gray-800 flex items-center gap-2">
+            🔖 Add Product
+          </h2>
+          <p className="text-sm text-gray-500">
+            Fill product details to list it in store
+          </p>
+        </div>
 
-        <Form>
+        <Form onSubmit={handleSubmit}>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Enter Product Name</Form.Label>
+          {/* PRODUCT NAME */}
+          <Form.Group className="mb-4">
+            <Form.Label className="text-gray-700 font-medium">
+              Product Name
+            </Form.Label>
             <Form.Control
               type="text"
               name="name"
+              value={input.name}
+              placeholder="Enter product name"
               onChange={handleInput}
             />
           </Form.Group>
 
-          <Form.Group className="mb-3">
+          {/* TOP BRAND */}
+          <Form.Group className="mb-4 flex items-center gap-2">
             <Form.Check
               type="checkbox"
-              label="Mark as Top Brand"
               name="isTopBrand"
               checked={input.isTopBrand}
               onChange={handleInput}
             />
+            <span className="text-gray-700">Mark as Top Brand</span>
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Select Category</Form.Label>
+          {/* CATEGORY */}
+          <Form.Group className="mb-4">
+            <Form.Label className="text-gray-700 font-medium">
+              Category
+            </Form.Label>
             <Form.Select name="category" onChange={handleInput}>
-              <option>Open this select menu</option>
+              <option value="">Select category</option>
               <option value="Books">Books</option>
               <option value="Novels">Novels</option>
               <option value="Pens&Pencils">Pens & Pencils</option>
@@ -117,63 +121,81 @@ const AddProduct = () => {
             </Form.Select>
           </Form.Group>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Product Description</Form.Label>
-            <Form.Control
-              type="text"
-              name="description"
-              onChange={handleInput}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Price</Form.Label>
-            <Form.Control
-              type="text"
-              name="price"
-              onChange={handleInput}
-            />
-          </Form.Group>
-
+          {/* DESCRIPTION */}
           <Form.Group className="mb-4">
-            <Form.Label>Upload Images</Form.Label>
+            <Form.Label className="text-gray-700 font-medium">
+              Description
+            </Form.Label>
             <Form.Control
-              type="file" multiple onChange={handleImage}
+              as="textarea"
+              rows={3}
+              name="description"
+              value={input.description}
+              placeholder="Short product description"
+              onChange={handleInput}
             />
           </Form.Group>
 
-          {/* IMAGE PREVIEW WITH REMOVE BUTTON */}
+          {/* PRICE */}
+          <Form.Group className="mb-4">
+            <Form.Label className="text-gray-700 font-medium">
+              Price (₹)
+            </Form.Label>
+            <Form.Control
+              type="number"
+              name="price"
+              value={input.price}
+              placeholder="Enter price"
+              onChange={handleInput}
+            />
+          </Form.Group>
+
+          {/* IMAGE UPLOAD */}
+          <Form.Group className="mb-3">
+            <Form.Label className="text-gray-700 font-medium">
+              Upload Images
+            </Form.Label>
+            <Form.Control
+              type="file"
+              multiple
+              key={preview.length}
+              onChange={handleImage} />
+          </Form.Group>
+
+          {/* IMAGE PREVIEW */}
           {preview.length > 0 && (
-            <div className="flex gap-3 flex-wrap mb-4">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
               {preview.map((img, index) => (
                 <div key={img} className="relative">
-
-                  {/* ❌ REMOVE BUTTON */}
+                  <img
+                    src={img}
+                    alt="preview"
+                    className="w-full h-24 object-cover rounded border"
+                  />
                   <button
                     type="button"
                     onClick={() => removeImage(index)}
-                    className="absolute -top-2 -right-2 bg-red-500 text-white 
-                     rounded-full w-5 h-5 flex items-center justify-center
-                     text-xs hover:bg-red-700"
+                    className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 text-xs"
                   >
                     ✕
                   </button>
-
-                  {/* IMAGE */}
-                  <img
-                    src={img}
-                    className="w-24 h-24 object-cover rounded border"
-                    alt="preview"
-                  />
                 </div>
               ))}
             </div>
           )}
 
+          {/* ACTION BUTTONS */}
+          <div className="flex justify-end gap-3 pt-4 border-t">
+            <Button
+              variant="secondary"
+              type="button"
+              onClick={resetForm}
+            >
+              Cancel
+            </Button>
 
-          <div className="text-center ">
-            <Button variant="primary" type="submit" className="px-4 py-1 w-100 sm:w-auto" onClick={handleSubmit}>
-              Submit
+            <Button variant="primary" type="submit">
+              Submit Product
             </Button>
           </div>
 

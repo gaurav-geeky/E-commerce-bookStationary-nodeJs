@@ -1,11 +1,11 @@
 //  EcomBookFinal
-
 const express = require('express');
 const app = express();
 require("dotenv").config();
 const bodyParser = require('body-parser');
 const cors = require("cors");
 const connectDB = require("./middleware/mongodb"); 
+
 const AdminRoute = require("./routes/adminRoute");
 const ProductRoute = require("./routes/productRoute");  
 const paymentroute = require("./routes/payment"); 

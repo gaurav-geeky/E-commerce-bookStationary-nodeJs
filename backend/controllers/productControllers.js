@@ -10,19 +10,7 @@ const secret = process.env.SECRET
 const orderModel = require('../models/order');
 
 
-const brandDisplay = async (req, res) => {
-    try {
-        // 👇 fetch ONLY top brand products
-        const products = await productModel.find({ isTopBrand: true });
-
-        res.status(200).json(products);
-    } catch (error) {
-        res.status(500).json({
-            msg: "Failed to fetch top brand products"
-        });
-    }
-};
-
+// user controller 
 
 const userRegisteration = async (req, res) => {
     const { name, email, contact, city, address, pincode } = req.body;
@@ -79,6 +67,21 @@ const userAuth = async (req, res) => {
         console.log(error);
     }
 }
+
+// product Controller
+
+const brandDisplay = async (req, res) => {
+    try {
+        // 👇 fetch ONLY top brand products
+        const products = await productModel.find({ isTopBrand: true });
+
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({
+            msg: "Failed to fetch top brand products"
+        });
+    }
+};
 
 const SaveAddress = async (req, res) => {
     const { userid, address } = req.body
@@ -148,19 +151,39 @@ const GetInvoice = async (req, res) => {
     }
 };
 
+const GetBooks = async (req, res) => {
+    try {
+        const bookdata = await productModel.find({ category: "Books" });
+        res.status(200).json({ bookdata, msg: "Got data of Books." });
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: "Failed to fetch top brand products"
+        });
+    }
+}
 
-
+const GetProductDetails = async (req, res) => {
+    const { proId } = req.params;
+    const myProduct = await productModel.findById(proId);
+    res.status(200).json({ myProduct, msg: "each product details received." });
+}
 
 module.exports = {
-    brandDisplay,
     userRegisteration,
     userLogin,
     userAuth,
+
+    brandDisplay,
     SaveAddress,
     SaveInstruction,
     SaveOrder,
     GetOrder,
     GetInvoice,
+    GetBooks,
+    GetProductDetails,
+
+
 
 }
 

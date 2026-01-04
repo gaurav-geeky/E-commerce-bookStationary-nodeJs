@@ -10,7 +10,6 @@ import store from "./Store.jsx";
 import { Provider } from "react-redux";
 
 
-
 createRoot(document.getElementById('root')).render(
 
   <Provider store={store}>
@@ -21,5 +20,5 @@ createRoot(document.getElementById('root')).render(
 
   </Provider>
 
-
 )
+

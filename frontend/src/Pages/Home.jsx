@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "./Slider";
+import { useNavigate } from "react-router-dom";
 
 import pencil1 from "../images/home/products/apsara.webp";
 import pencil2 from "../images/home/products/colorpencil.avif";
@@ -23,9 +24,11 @@ import { addToCart } from "../CartSlice";
 
 import "../css/Home.css";   // ✅ NEW CSS FILE
 
+
 const Home = () => {
   const [mydata, setmydata] = useState([]);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const loadData = async () => {
     let api = `${import.meta.env.VITE_BACKURL}/product/branddisplay`;
@@ -37,8 +40,12 @@ const Home = () => {
     loadData();
   }, []);
 
+
   const ans = mydata.map((key) => (
-    <Card key={key._id} className="product-card">
+    <Card key={key._id}
+      className="product-card"
+      onClick={() => navigate(`/myeachproduct/${key._id}`)}
+    >
       <Card.Img src={key.defaultImage} className="product-img" />
 
       <Card.Body>
@@ -55,18 +62,21 @@ const Home = () => {
         <Button
           variant="primary"
           className="mt-2"
-          onClick={() =>
-            dispatch(
-              addToCart({
-                id: key._id,
-                name: key.name,
-                description: key.description,
-                category: key.category,
-                price: key.price,
-                image: key.defaultImage,
-                qnty: 1,
-              })
-            )
+          onClick={
+            (e) => {
+              e.stopPropagation(); // 🚫 stops card click
+              dispatch(
+                addToCart({
+                  id: key._id,
+                  name: key.name,
+                  description: key.description,
+                  category: key.category,
+                  price: key.price,
+                  image: key.defaultImage,
+                  qnty: 1,
+                })
+              )
+            }
           }
         >
           Add to Cart
@@ -75,6 +85,7 @@ const Home = () => {
 
     </Card>
   ));
+
 
   return (
     <div className="home-wrapper">
@@ -134,6 +145,7 @@ const Home = () => {
   );
 };
 
+
 const CategoryItem = ({ img, text }) => (
   <div className="category-item">
     <img src={img} alt={text} />
@@ -142,3 +154,5 @@ const CategoryItem = ({ img, text }) => (
 );
 
 export default Home;
+
+

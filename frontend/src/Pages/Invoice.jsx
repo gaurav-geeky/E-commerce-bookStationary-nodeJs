@@ -8,17 +8,18 @@ const Invoice = () => {
     const { orderId } = useParams();
     const [order, setOrder] = useState(null);
 
+    const fetchOrder = async () => {
+        try {
+            const api = `${import.meta.env.VITE_BACKURL}/product/getinvoice/${orderId}`;
+            const res = await axios.get(api);
+            console.log(res);
+            setOrder(res.data.order);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     useEffect(() => {
-        const fetchOrder = async () => {
-            try {
-                const api = `${import.meta.env.VITE_BACKURL}/product/getinvoice/${orderId}`;
-                const res = await axios.get(api);
-                console.log(res);
-                setOrder(res.data.order);
-            } catch (error) {
-                console.log(error);
-            }
-        };
         fetchOrder();
     }, [orderId]);
 
@@ -32,6 +33,7 @@ const Invoice = () => {
 
     return (
         <div className="min-h-screen bg-gray-100 py-10">
+
             <div
                 className="max-w-3xl mx-auto bg-white p-8 shadow-md border">
 

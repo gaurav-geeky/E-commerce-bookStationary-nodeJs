@@ -49,7 +49,9 @@ const Home = () => {
       <Card.Img src={key.defaultImage} className="product-img" />
 
       <Card.Body>
-        <Card.Title>{key.name}</Card.Title>
+        <Card.Title className="product-name">
+          {key.name}
+        </Card.Title>
 
         <p className="product-desc">
           Description : {key.description}

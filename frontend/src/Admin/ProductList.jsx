@@ -65,16 +65,17 @@ const ProductList = () => {
 
   /* ---------------- TABLE ROWS ---------------- */
   const rows = displayData.map((item) => (
-    <tr key={item._id} className="border-b border-gray-700">
+    <tr key={item._id} className="hover:bg-gray-50">
+
       {/* PRODUCT NAME */}
-      <td className="p-3 align-top border border-gray-600">
+      <td className="p-3 align-top border text-gray-700">
         {editId === item._id ? (
           <input
             value={editData.name}
             onChange={(e) =>
               setEditData({ ...editData, name: e.target.value })
             }
-            className="w-full bg-gray-800 text-white px-2 py-1 rounded"
+            className="w-full border px-2 py-1 rounded"
           />
         ) : (
           item.name
@@ -82,14 +83,14 @@ const ProductList = () => {
       </td>
 
       {/* CATEGORY */}
-      <td className="p-3 align-top border border-gray-600">
+      <td className="p-3 align-top border text-gray-700">
         {editId === item._id ? (
           <select
             value={editData.category}
             onChange={(e) =>
               setEditData({ ...editData, category: e.target.value })
             }
-            className="w-full bg-gray-800 text-white px-2 py-1 rounded"
+            className="w-full border px-2 py-1 rounded"
           >
             <option>Books</option>
             <option>Novels</option>
@@ -101,27 +102,25 @@ const ProductList = () => {
         )}
       </td>
 
-      {/* DESCRIPTION (WIDEST) */}
-      <td className="p-3 align-top border border-gray-600">
-        <div className="h-[140px] overflow-hidden">
-          {editId === item._id ? (
-            <textarea
-              value={editData.description}
-              onChange={(e) =>
-                setEditData({ ...editData, description: e.target.value })
-              }
-              className="w-full h-full bg-gray-800 text-white px-2 py-1 rounded resize-none"
-            />
-          ) : (
-            <p className="text-sm leading-relaxed">
-              {item.description}
-            </p>
-          )}
-        </div>
+      {/* DESCRIPTION */}
+      <td className="p-3 align-top border text-gray-700">
+        {editId === item._id ? (
+          <textarea
+            value={editData.description}
+            onChange={(e) =>
+              setEditData({ ...editData, description: e.target.value })
+            }
+            className="w-full border px-2 py-1 rounded resize-none h-[120px]"
+          />
+        ) : (
+          <p className="text-sm leading-relaxed">
+            {item.description}
+          </p>
+        )}
       </td>
 
       {/* PRICE */}
-      <td className="p-3 align-top border border-gray-600">
+      <td className="p-3 align-top border font-medium text-gray-800">
         {editId === item._id ? (
           <input
             type="number"
@@ -129,7 +128,7 @@ const ProductList = () => {
             onChange={(e) =>
               setEditData({ ...editData, price: e.target.value })
             }
-            className="w-full bg-gray-800 text-white px-2 py-1 rounded"
+            className="w-full border px-2 py-1 rounded"
           />
         ) : (
           `₹${item.price}`
@@ -137,7 +136,7 @@ const ProductList = () => {
       </td>
 
       {/* IMAGE */}
-      <td className="p-3 align-top border border-gray-600">
+      <td className="p-3 align-top border">
         <img
           src={item.defaultImage}
           alt=""
@@ -146,18 +145,18 @@ const ProductList = () => {
       </td>
 
       {/* ACTION */}
-      <td className="p-3 align-top border border-gray-600">
+      <td className="p-3 align-top border">
         {editId === item._id ? (
-          <div className="flex flex-wrap gap-2">
+          <div className="flex gap-2">
             <button
               onClick={() => saveEdit(item._id)}
-              className="bg-green-600 hover:bg-green-700 px-3 py-1 rounded text-sm"
+              className="bg-green-600 text-white px-3 py-1 rounded text-sm"
             >
               Save
             </button>
             <button
               onClick={cancelEdit}
-              className="bg-gray-500 hover:bg-gray-600 px-3 py-1 rounded text-sm"
+              className="bg-gray-400 text-white px-3 py-1 rounded text-sm"
             >
               Cancel
             </button>
@@ -165,7 +164,7 @@ const ProductList = () => {
         ) : (
           <button
             onClick={() => myEdit(item._id)}
-            className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-sm"
+            className="bg-blue-600 text-white px-3 py-1 rounded text-sm"
           >
             Edit
           </button>
@@ -173,7 +172,7 @@ const ProductList = () => {
 
         <button
           onClick={() => myDel(item._id)}
-          className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-sm mt-2"
+          className="bg-red-600 text-white px-3 py-1 rounded text-sm mt-2"
         >
           Delete
         </button>
@@ -181,56 +180,73 @@ const ProductList = () => {
     </tr>
   ));
 
-  return (
-    <div className="p-6 text-white">
-      <h2 className="text-2xl font-semibold mb-4">
-        Product Management
-      </h2>
 
-      {/* SEARCH */}
-      <div className="mb-4 flex gap-2">
-        <input
-          type="text"
-          placeholder="Search product..."
-          value={searchone}
-          onChange={(e) => setsearchone(e.target.value)}
-          className="bg-white text-black px-3 py-2 rounded w-64"
-        />
-        <button
-          onClick={handlesearchone}
-          className="bg-blue-600 px-4 py-2 rounded"
-        >
-          Search
-        </button>
+  return (
+    <div className="w-full">
+
+      {/* PAGE HEADER */}
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-gray-800">
+          📋 Product Management
+        </h2>
+        <p className="text-sm text-gray-500">
+          View, edit and delete products
+        </p>
       </div>
 
-      {/* TABLE */}
-      <table className="w-full table-fixed border border-gray-600">
-        {/* 🔑 COLUMN WIDTH CONTROL */}
-        <colgroup>
-          <col className="w-[18%]" />
-          <col className="w-[12%]" />
-          <col className="w-[36%]" />
-          <col className="w-[8%]" />
-          <col className="w-[10%]" />
-          <col className="w-[16%]" />
-        </colgroup>
+      {/* CARD */}
+      <div className="bg-white rounded-xl shadow-md p-6">
 
-        <thead className="bg-gray-800">
-          <tr>
-            <th className="p-3 text-left border border-gray-600">Product Name</th>
-            <th className="p-3 text-left border border-gray-600">Category</th>
-            <th className="p-3 text-left border border-gray-600">Description</th>
-            <th className="p-3 text-left border border-gray-600">Price</th>
-            <th className="p-3 text-left border border-gray-600">Image</th>
-            <th className="p-3 text-left border border-gray-600">Action</th>
-          </tr>
-        </thead>
+        {/* SEARCH */}
+        <div className="mb-4 flex gap-3">
+          <input
+            type="text"
+            placeholder="Search product..."
+            value={searchone}
+            onChange={(e) => setsearchone(e.target.value)}
+            className="border px-4 py-2 rounded-md w-[450px] focus:ring-2 focus:ring-blue-500 outline-none"
+          />
+          <button
+            onClick={handlesearchone}
+            style={{ borderRadius: "5px" }}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg"
+          >
+            Search
+          </button>
+        </div>
 
-        <tbody>{rows}</tbody>
-      </table>
+        {/* TABLE */}
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+
+            <colgroup>
+              <col className="w-[18%]" />
+              <col className="w-[12%]" />
+              <col className="w-[36%]" />
+              <col className="w-[8%]" />
+              <col className="w-[10%]" />
+              <col className="w-[16%]" />
+            </colgroup>
+
+            <thead className="bg-gray-100 text-gray-700">
+              <tr>
+                <th className="p-3 border text-left">Product Name</th>
+                <th className="p-3 border text-left">Category</th>
+                <th className="p-3 border text-left">Description</th>
+                <th className="p-3 border text-left">Price</th>
+                <th className="p-3 border text-left">Image</th>
+                <th className="p-3 border text-left">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>{rows}</tbody>
+          </table>
+        </div>
+
+      </div>
     </div>
   );
+
 };
 
 export default ProductList;

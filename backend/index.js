@@ -14,6 +14,7 @@ const paymentroute = require("./routes/payment");
 // Use body-parser middleware for JSON and URL-encoded data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(cors());
 
 connectDB(); 

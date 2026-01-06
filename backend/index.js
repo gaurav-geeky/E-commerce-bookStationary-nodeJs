@@ -15,6 +15,8 @@ const paymentroute = require("./routes/payment");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// app.use(cors()); 
+
 app.use(cors({
   origin: ["https://ecombook-front.onrender.com"],
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],

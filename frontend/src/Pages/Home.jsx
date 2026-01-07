@@ -29,7 +29,8 @@ import "../css/Home.css";   // ✅ NEW CSS FILE
 const Home = () => {
 
   const { searchQuery } = useOutletContext();
-  
+  const [debounceSearch, setdebounceSearch] = useState("");
+
   const [mydata, setmydata] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -44,9 +45,19 @@ const Home = () => {
     loadData();
   }, []);
 
+  // search debouncing. 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setdebounceSearch(searchQuery);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+
   // filtered data
   const filteredProducts = mydata.filter((item) =>
-    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    item.name.toLowerCase().includes(debounceSearch.toLowerCase())
   );
 
 

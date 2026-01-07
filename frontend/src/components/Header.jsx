@@ -7,6 +7,7 @@ import "../css/Header.css";
 import logo from "../assets/bookLogo.png";
 
 const Header = ({ setSearchQuery }) => {
+
   const myData = useSelector((state) => state.mycart.cart);
   const proLength = myData.length;
 

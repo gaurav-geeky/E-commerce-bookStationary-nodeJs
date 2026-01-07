@@ -6,7 +6,7 @@ import Nav from "react-bootstrap/Nav";
 import "../css/Header.css";
 import logo from "../assets/bookLogo.png";
 
-const Header = () => {
+const Header = ({ setSearchQuery }) => {
   const myData = useSelector((state) => state.mycart.cart);
   const proLength = myData.length;
 
@@ -15,7 +15,6 @@ const Header = () => {
 
   const dropdownRef = useRef();
   const name = localStorage.getItem("name");
-
 
   useEffect(() => {
     const handleOutsideClick = (event) => {
@@ -37,7 +36,11 @@ const Header = () => {
         </div>
 
         <div className="search-box">
-          <input type="text" placeholder="Search products…" />
+          <input
+            type="text"
+            placeholder="Search products…"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
           <button>
             <FaSearch />
           </button>

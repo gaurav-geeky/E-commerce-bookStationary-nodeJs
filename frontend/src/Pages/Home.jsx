@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "./Slider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 
 import pencil1 from "../images/home/products/apsara.webp";
 import pencil2 from "../images/home/products/colorpencil.avif";
@@ -22,10 +22,14 @@ import { Card, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../CartSlice";
 
+
 import "../css/Home.css";   // ✅ NEW CSS FILE
 
 
 const Home = () => {
+
+  const { searchQuery } = useOutletContext();
+  
   const [mydata, setmydata] = useState([]);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,8 +44,13 @@ const Home = () => {
     loadData();
   }, []);
 
+  // filtered data
+  const filteredProducts = mydata.filter((item) =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  const ans = mydata.map((key) => (
+
+  const ans = filteredProducts.map((key) => (
     <Card key={key._id}
       className="product-card"
       onClick={() => navigate(`/myeachproduct/${key._id}`)}

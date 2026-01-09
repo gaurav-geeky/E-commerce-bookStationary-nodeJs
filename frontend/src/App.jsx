@@ -5,6 +5,7 @@ import Layout from './Layout'
 import Home from './Pages/Home'
 import Books from './Pages/Books'
 import MyEachProducts from './Pages/MyEachProducts'
+import PenPencils from './Pages/PenPencils'
 
 
 // for admin 
@@ -37,6 +38,8 @@ function App() {
             <Route index element={<Home />} />
             <Route path='home' element={<Home />} />
             <Route path='book' element={<Books />} />
+            <Route path='penpencils' element={<PenPencils />} />
+
             <Route path='mycart' element={<Mycart />} />
             <Route path='registration' element={<Registration />} />
             <Route path='login' element={<Login />} />

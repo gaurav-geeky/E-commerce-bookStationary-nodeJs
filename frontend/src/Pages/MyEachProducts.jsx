@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const MyEachProducts = () => {
-    
+
     const { proId } = useParams();
     const [product, setProduct] = useState(null);
     const [mainImage, setMainImage] = useState("");
@@ -47,10 +47,10 @@ const MyEachProducts = () => {
                 </div>
 
                 {/* Main Image */}
-                <div className="border p-3">
+                <div className="border rounded-lg p-4 w-[350px] h-[450px] flex items-center justify-center bg-white shadow">
                     <img
                         src={mainImage}
-                        className="w-[350px] h-[450px] object-contain"
+                        className="max-w-full max-h-full object-contain"
                     />
                 </div>
             </div>
@@ -66,7 +66,7 @@ const MyEachProducts = () => {
                 </p>
 
                 <p className="text-sm">
-                    Category: <b>{product.category}</b>
+                    Category : <b>{product.category}</b>
                 </p>
 
                 {product.isTopBrand && (
@@ -75,9 +75,10 @@ const MyEachProducts = () => {
                     </span>
                 )}
 
-                <button className="bg-yellow-400 px-6 py-3 rounded text-lg">
+                <button className="w-40 font-bold bg-yellow-400 px-2 py-3 rounded text-lg">
                     Add to Cart
                 </button>
+
             </div>
         </div>
     );
@@ -86,46 +87,5 @@ const MyEachProducts = () => {
 export default MyEachProducts;
 
 
-
-
-
-// import axios from 'axios';
-// import React from 'react'
-// import { useEffect, useState } from 'react';
-// import { useDispatch } from 'react-redux';
-// import { useParams } from 'react-router-dom';
-
-// const MyEachProducts = () => {
-//     const { proId } = useParams();
-//     const [product, setproduct] = useState({});
-//     const dispatch = useDispatch();
-
-//     const loadProduct = async () => {
-//         try {
-//             const api = `${import.meta.env.VITE_BACKURL}/product/getproductdetail/${proId}`;
-//             const res = await axios.get(api);
-//             console.log(res.data);
-//             setproduct(res.data.myProduct);
-//         } catch (error) {
-//             console.log(error);
-//         }
-//     }
-
-//     useEffect(() => {
-//         loadProduct();
-//     }, [proId])
-
-//     return (
-//         <>
-//             <div>
-//                 this is my each product jsx whre on click of pro info displays
-//                 <br /> <br />
-//                 my id : {proId}
-//             </div>
-//         </>
-//     )
-// }
-
-// export default MyEachProducts;
 
 

@@ -18,7 +18,11 @@ route.get("/getorder", ProductController.GetOrder);
 
 route.post("/saveorder", ProductController.SaveOrder);
 route.get("/getinvoice/:orderId", ProductController.GetInvoice);
+
 route.get("/getbooks", ProductController.GetBooks);
+route.get("/getpenpencils", ProductController.GetPenPencils);
+
+
 route.get("/getproductdetail/:proId", ProductController.GetProductDetails);
 
 module.exports = route;

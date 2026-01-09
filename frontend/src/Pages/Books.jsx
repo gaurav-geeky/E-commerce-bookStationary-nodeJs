@@ -31,10 +31,10 @@ const Books = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setdebounceSearch(searchQuery);
-    }, 300); 
+    }, 300);
 
-    return () => clearTimeout(timer); 
-  }, [searchQuery]); 
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
 
   const filteredProducts = books.filter((item) =>
@@ -57,9 +57,9 @@ const Books = () => {
       </div>
 
       {/* Book Name */}
-      <h3 className="text-sm font-semibold line-clamp-2">
+      <h4 className="text-sm font-semibold line-clamp-2">
         {book.name}
-      </h3>
+      </h4>
 
       {/* Author / Description */}
       <p className="text-xs text-gray-500 line-clamp-1">
@@ -83,7 +83,7 @@ const Books = () => {
 
       {/* Stock / Offer */}
       <div
-        className=" inline-block
+        className="inline-block
                 text-lg font-medium
               bg-blue-500 text-white
                 mt-2 py-2 px-3
@@ -112,8 +112,14 @@ const Books = () => {
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-6">
-      {/* Page Title */}
-      <h1 className="text-2xl font-bold mb-6">Books</h1>
+
+      {/* TOP HEADING */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-bold mb-2">Books</h1>
+        <p className="text-gray-600 max-w-4xl italic">
+          Discover a curated collection of books across all genres — from fiction and novels to academic references and self-development titles. Whether you're a student, a casual reader, or a book lover, our selection brings knowledge, entertainment, and inspiration to your fingertips.
+        </p>
+      </div>
 
       {/* Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">

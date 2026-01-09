@@ -89,7 +89,7 @@ const Header = ({ setSearchQuery }) => {
             <Nav.Link as={Link} to="/book" onClick={() => setMenuOpen(false)}>BOOKS</Nav.Link>
             <Nav.Link as={Link} to="/novels" onClick={() => setMenuOpen(false)}>NOVELS</Nav.Link>
             <Nav.Link as={Link} to="/notebooks" onClick={() => setMenuOpen(false)}>NOTEBOOKS</Nav.Link>
-            <Nav.Link as={Link} to="/" onClick={() => setMenuOpen(false)}>PENS & PENCILS</Nav.Link>
+            <Nav.Link as={Link} to="/penpencils" onClick={() => setMenuOpen(false)}>PENS & PENCILS</Nav.Link>
             <Nav.Link as={Link} to="/mycart" onClick={() => setMenuOpen(false)}>CART</Nav.Link>
           </div>
         </div>

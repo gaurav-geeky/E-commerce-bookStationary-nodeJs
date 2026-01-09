@@ -161,7 +161,20 @@ const GetBooks = async (req, res) => {
             msg: "Failed to fetch top brand products"
         });
     }
+} 
+
+const GetPenPencils = async (req, res) => {
+    try {
+        const pensData = await productModel.find({ category: "Pens&Pencils" });
+        res.status(200).json({ pensData, msg: "Got data of Pen pencil." });
+    }
+    catch (error) {
+        res.status(500).json({
+            msg: "Failed to fetch top brand products"
+        });
+    }
 }
+
 
 const GetProductDetails = async (req, res) => {
     const { proId } = req.params;
@@ -181,6 +194,8 @@ module.exports = {
     GetOrder,
     GetInvoice,
     GetBooks,
+    GetPenPencils, 
+
     GetProductDetails,
 
 

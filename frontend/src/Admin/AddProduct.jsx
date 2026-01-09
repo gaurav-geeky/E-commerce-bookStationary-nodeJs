@@ -61,10 +61,13 @@ const AddProduct = () => {
     images.forEach((img) => formData.append("images", img));
 
     const res = await axios.post(api, formData);
+
+    // CLEAR ALL FIELDS AFTER SUCCESSFUL SUBMIT
+    resetForm();
     alert(res.data.msg);
   };
 
-  
+
   return (
     <div className="w-full flex justify-center px-4 py-8">
       {/* MAIN CARD */}

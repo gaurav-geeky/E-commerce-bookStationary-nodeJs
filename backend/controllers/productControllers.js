@@ -18,7 +18,6 @@ const userRegisteration = async (req, res) => {
     const hashpass = await bcrypt.hash(ranpass, 10);
 
     console.log(`users password is ${ranpass}`);
-
     emailsend.userNodeMail(name, email, ranpass);
 
     const user = await userModel.create({
@@ -41,13 +40,11 @@ const userLogin = async (req, res) => {
     if (!user) {
         return res.status(400).send({ msg: "Invalid email" });
     }
-
     const passValid = await bcrypt.compare(password, user.password);
 
     if (!passValid) {
         return res.status(400).send({ msg: "Invalid password." });
     }
-
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: "3d" });
 
     return res.send({ msg: "user login successfull", user, token });

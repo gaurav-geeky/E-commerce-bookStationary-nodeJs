@@ -86,10 +86,15 @@ const Header = ({ setSearchQuery }) => {
           {/* LINKS */}
           <div className={`menu-links ${menuOpen ? "open" : ""}`}>
             <Nav.Link as={Link} to="/home" onClick={() => setMenuOpen(false)}>HOME</Nav.Link>
+
             <Nav.Link as={Link} to="/book" onClick={() => setMenuOpen(false)}>BOOKS</Nav.Link>
-            <Nav.Link as={Link} to="/novels" onClick={() => setMenuOpen(false)}>NOVELS</Nav.Link>
-            <Nav.Link as={Link} to="/notebooks" onClick={() => setMenuOpen(false)}>NOTEBOOKS</Nav.Link>
+
             <Nav.Link as={Link} to="/penpencils" onClick={() => setMenuOpen(false)}>PENS & PENCILS</Nav.Link>
+
+            <Nav.Link as={Link} to="/novels" onClick={() => setMenuOpen(false)}>NOVELS</Nav.Link>
+
+            <Nav.Link as={Link} to="/notebooks" onClick={() => setMenuOpen(false)}>NOTEBOOKS</Nav.Link>
+
             <Nav.Link as={Link} to="/mycart" onClick={() => setMenuOpen(false)}>CART</Nav.Link>
           </div>
         </div>

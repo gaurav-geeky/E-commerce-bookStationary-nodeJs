@@ -32,7 +32,7 @@ connectDB();
 app.use('/admin', AdminRoute)
 app.use('/product', ProductRoute)
 
-// payment route
+// payment routes
 app.use('/api/payment/', paymentroute);
 
 

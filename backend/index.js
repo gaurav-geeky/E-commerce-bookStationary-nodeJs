@@ -15,16 +15,16 @@ const paymentroute = require("./routes/payment");
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(cors()); 
+app.use(cors()); 
 
-app.use(cors({
-  origin: [
-    "https://ecombook-front.onrender.com",
-    "http://localhost:5173"
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  credentials: true,
-}));
+// app.use(cors({
+//   origin: [
+//     "https://ecombook-front.onrender.com",
+//     "http://localhost:5173"
+//   ],
+//   methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+//   credentials: true,
+// }));
 
 connectDB();
 
@@ -40,3 +40,4 @@ const port = process.env.PORT;
 app.listen(port, () => {
   console.log(`server runs at http://localhost:${port}`);
 })
+

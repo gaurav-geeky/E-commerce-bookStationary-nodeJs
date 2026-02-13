@@ -24,9 +24,7 @@ import Checkout from './Pages/Checkout'
 import Invoice from './Pages/Invoice'
 
 
-
 function App() {
-
 
   return (
     <>
@@ -51,6 +49,7 @@ function App() {
           <Route path='adminlogin' element={<AdminLogin />} />
 
         </Routes>
+
 
         <Routes> 
           <Route path='/admindash' element={<AdminDashboard />}>
